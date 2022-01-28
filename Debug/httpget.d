@@ -95,6 +95,19 @@ httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IInstance.h
 httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IGateProvider.h
 httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_SupportProxy.h
 httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_Module_GateProxy.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Timestamp.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampClient.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampProvider.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampClient.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/Timestamp_SupportProxy.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampProvider.h
+httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/Timestamp_SupportProxy.h
 httpget.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/BIOS.h
 httpget.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
 httpget.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/BIOS__prologue.h
@@ -229,6 +242,7 @@ httpget.obj: C:/ti/tirtos_tivac_2_16_00_08/products/ns_1_11_00_10/packages/ti/ne
 httpget.obj: C:/ti/tirtos_tivac_2_16_00_08/products/ns_1_11_00_10/packages/ti/net/http/httpstd.h
 httpget.obj: ../Board.h
 httpget.obj: ../EK_TM4C1294XL.h
+httpget.obj: ../MAX30100.h
 
 ../httpget.c:
 
@@ -419,6 +433,32 @@ C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IGateProvider.h:
 C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_SupportProxy.h:
 
 C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_Module_GateProxy.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Timestamp.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampClient.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampProvider.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampClient.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/Timestamp_SupportProxy.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ITimestampProvider.h:
+
+C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/Timestamp_SupportProxy.h:
 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/BIOS.h:
 
@@ -687,4 +727,6 @@ C:/ti/tirtos_tivac_2_16_00_08/products/ns_1_11_00_10/packages/ti/net/http/httpst
 ../Board.h:
 
 ../EK_TM4C1294XL.h:
+
+../MAX30100.h:
 

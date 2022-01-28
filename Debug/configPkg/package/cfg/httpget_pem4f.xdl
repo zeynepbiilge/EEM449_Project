@@ -10,6 +10,7 @@
 
 
 -l"C:\Users\zeyne\workspace_v10\httpget_EK_TM4C1294XL_TI\Debug\configPkg\package\cfg\httpget_pem4f.oem4f"
+-l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/mw/wifi/cc3x00/lib/cc3x00_host_driver.aem4f"
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\ns_1_11_00_10\packages\ti\net\sntp\lib\sntp_ndk.aem4f"
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\ns_1_11_00_10\packages\ti\net\http\lib\http_ndk.aem4f"
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\ns_1_11_00_10\packages\ti\net\lib\network_ndk.aem4f"
@@ -25,7 +26,6 @@
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\ndk_2_25_00_09\packages\ti\ndk\hal\ser_stub\lib\hal_ser_stub.aem4f"
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\ndk_2_25_00_09\packages\ti\ndk\tools\servers\lib\servers_min_ipv4.aem4f"
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\ndk_2_25_00_09\packages\ti\ndk\stack\lib\stk.aem4f"
--l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/mw/wifi/cc3x00/lib/cc3x00_host_driver.aem4f"
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/lib/drivers_tivaware.aem4f"
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/lib/drivers_wifi_tivaware.aem4f"
 -l"C:\ti\tirtos_tivac_2_16_00_08\products\tidrivers_tivac_2_16_00_08\packages\ti\mw\fatfs\lib\release\ti.mw.fatfs.aem4f"
@@ -139,18 +139,6 @@
 
 /* Content from ti.platforms.tiva (null): */
 
-/* Content from ti.sysbios (null): */
-
-/* Content from ti.drivers.ports (null): */
-
-/* Content from ti.mw.fatfs (null): */
-
-/* Content from ti.drivers (null): */
-
-/* Content from ti.mw.wifi.cc3x00 (null): */
-
-/* Content from ti.mw (null): */
-
 /* Content from ti.sysbios.hal (null): */
 
 /* Content from ti.sysbios.family.arm.m3 (ti/sysbios/family/arm/m3/linkcmd.xdt): */
@@ -158,9 +146,17 @@
 --retain "*(.resetVecs)"
 ti_sysbios_family_arm_m3_Hwi_nvic = 0xe000e000;
 
+/* Content from ti.sysbios (null): */
+
 /* Content from ti.sysbios.knl (null): */
 
 /* Content from ti.sysbios.family.arm.lm4 (null): */
+
+/* Content from ti.drivers.ports (null): */
+
+/* Content from ti.mw.fatfs (null): */
+
+/* Content from ti.drivers (null): */
 
 /* Content from ti.ndk.config (null): */
 
@@ -175,6 +171,10 @@ ti_sysbios_family_arm_m3_Hwi_nvic = 0xe000e000;
 /* Content from ti.sysbios.xdcruntime (null): */
 
 /* Content from ti.sysbios.heaps (null): */
+
+/* Content from ti.mw.wifi.cc3x00 (null): */
+
+/* Content from ti.mw (null): */
 
 /* Content from ti.sysbios.utils (null): */
 

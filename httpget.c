@@ -77,6 +77,7 @@
 // XDCtools Header files
 #include <xdc/runtime/Error.h>
 #include <xdc/runtime/System.h>
+#include <xdc/runtime/Timestamp.h>
 
 /* TI-RTOS Header files */
 #include <ti/sysbios/BIOS.h>
@@ -93,15 +94,11 @@
 #include <ti/net/http/httpcli.h>
 
 #include "Board.h"
+#include "MAX30100.h"
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define TASKSTACKSIZE   4096
-#define SOCKETTEST_IP   "192.168.1.66"
-#define OUTGOIN_PORT    5011
-#define INCOMING_PORT   5030
-#define DEVICE_ID       0x57
 
 Task_Struct task0Struct;
 Char task0Stack[TASKSTACKSIZE];
@@ -113,8 +110,11 @@ I2C_Transaction i2cTransaction;
 
 extern Mailbox_Handle mailbox0;
 extern Swi_Handle swi0;
+extern Semaphore_Handle semaphore0;
+extern Semaphore_Handle semaphore1;
 
 extern time_t ts;
+int BPM = 0;
 
 Void startNTP(UArg arg1, UArg arg2);
 
@@ -216,76 +216,80 @@ bool I2C_readRegister(int device_ID, int addr, int no_of_bytes, char *buf)
 Void getBPMValue(UArg arg0, UArg arg1)
 {
         char buffer[2];
-        char BPMVal[8];
         int currentSensorData,DCFilterVal, BWFilterData;
-        int cnt = 0;
-        int pulseW = 0;
-        int count = 0;
-        int next1=0;
-        I2C_OpenCommunication();
-        int BPM;
-        char mode;
-        int pulStat = 0;
-        int DC, DCOld,oldVal = 0;
-        int BWOld,BWNew = 0;
+        int cycleCount = 0;
+        int prevPulse = 0;
 
+        I2C_OpenCommunication();
 
         /* check if connection with sensor is established */
-        I2C_readRegister(DEVICE_ID, 0xFF, 1, buffer);
+        I2C_readRegister(DEVICE_ID, WHO_AM_I, 1, buffer);
         System_printf("WHO_AM_I register = 0x%x\n", buffer[0]);
         System_flush();
 
         /* select sensor mode */
-        I2C_writeRegister(DEVICE_ID, 0x06, 0x03);
+        I2C_writeRegister(DEVICE_ID, MODE_SEL_REG, 0x03);
 
-        /* set LED pulse width */
-        I2C_writeRegister(DEVICE_ID,0x07,0x07);
+        /* set LED pulse width */ /*1600 us*/
+        I2C_writeRegister(DEVICE_ID,LED_PW_SEL_REG,0x03);
 
-        /* set IR and red LED currents*/
-        I2C_writeRegister(DEVICE_ID,0x09,0x49);
+        /* set IR and red LED currents*/ /* RED = 14.2 mA  IR = 30.6 mA*/
+        I2C_writeRegister(DEVICE_ID,LED_CUR_SEL_REG,0x49);
 
         while(1) {
 
-            I2C_readRegister(DEVICE_ID, 0x05, 4, buffer);
+
+
+            I2C_readRegister(DEVICE_ID, READ_REG, 4, buffer);
+
             currentSensorData = (buffer[0] << 8) | buffer[1];
 
             DCFilterVal = removeDCValue(currentSensorData); // get DC filtered value
 
             BWFilterData = butterworthFilter(DCFilterVal); //butterworth filter
 
+            pulseDetect(BWFilterData);
+
+            if ( cycleCount >= 80){
+                if(prevPulse != BPM){
+                    cycleCount = 0;
+                    System_printf("BPM value calculated = %d\n", BPM);
+                    System_flush();
+
+                    Mailbox_post(mailbox0, &BPM, BIOS_WAIT_FOREVER);
+                    prevPulse = BPM;
+                }
+            }
+            cycleCount++;
             Task_sleep(20);
-
-            if(BWFilterData > oldVal & pulStat == 0){
-                pulStat = 1;
-
-            }
-            if(BWFilterData <= oldVal-20 & pulStat == 1){
-
-                pulseW =count;
-                pulStat = 0;
-                count = 0;
-                System_printf("pulse\n");
-                System_flush();
-
-            }
-            if (cnt==50){
-                System_printf("BPM = %d\n", BPM);
-                System_flush();
-                cnt=0;
-                Mailbox_post(mailbox0, &BPM, BIOS_WAIT_FOREVER);
-
-            }
-            cnt++;
-            count++;
-            oldVal = BWFilterData;
-            BPM = 1200 / pulseW;
-
         }
 
         I2C_CloseCommunication();
     }
+bool pulseDetect(int sensorValue){
+    static int prevValue = 0;
+    static int pulse = 0;
+    static int pulseDelay=0, pulseDelayCount=0;
 
+    if(sensorValue > prevValue & pulse == 1){
+        pulse = 0;
+    }
+    if(sensorValue < (prevValue - 30) & pulse == 0){
+        System_printf("Pulse Detected \n");
+        System_flush();
+        pulse = 1;
+        pulseDelay = pulseDelayCount;
+        pulseDelayCount=0;
+    }
 
+    pulseDelayCount++;
+    prevValue = sensorValue;
+    Semaphore_pend(semaphore0,BIOS_WAIT_FOREVER);
+    BPM = 2400/pulseDelay;
+    Semaphore_post(semaphore0);
+    return pulse;
+
+}
 int removeDCValue(int currentSensorData)
 {
     int filteredValue,filteringValue;
@@ -319,8 +323,6 @@ void printError(char *errString, int code)
 
 Void serverSocketTask(UArg arg0, UArg arg1)
 {
-
-    float temp;
 
     int serverfd, new_socket, valread, len;
     struct sockaddr_in serverAddr, clientAddr;
@@ -413,17 +415,17 @@ Void serverSocketTask(UArg arg0, UArg arg1)
             }
             else if (!strcmp(buffer, "READBPM"))
             {
-                static int avgbpm;
-                static float avg;
+                int BPMValue;
+                float avgBPM;
+                float sum = 0;
                 int i;
 
-
-                for(i=0;i<10;i++){ // 5 bpm values to be averaged
-                Mailbox_pend(mailbox0, &avgbpm, BIOS_WAIT_FOREVER); //waiting for bpm values
-                avg += avgbpm;
+                for(i=0;i<10;i++){
+                Mailbox_pend(mailbox0, &BPMValue, BIOS_WAIT_FOREVER);
+                 sum += BPMValue;
                 }
-                avg = avg/10;
-                sprintf(outstr, "BPM %5.2f\n", avg);
+                avgBPM = sum/10;
+                sprintf(outstr, "BPM %3.2f\n", avgBPM);
                 send(new_socket, outstr, strlen(outstr), 0);
             }
 
@@ -474,8 +476,8 @@ bool createTasks(void)
     taskHandle2 = Task_create((Task_FuncPtr) startNTP, &taskParams, &eb);
 
 
-    if ( taskHandle2==NULL || taskHandle3 == NULL || taskHandle1==NULL) {
-        printError("netIPAddrHook: Failed to create HTTP, Socket and Server Tasks\n", -1);
+    if ( taskHandle1==NULL || taskHandle2 == NULL || taskHandle3==NULL) {
+        printError("Failed to create Tasks\n", -1);
         return false;
     }
 

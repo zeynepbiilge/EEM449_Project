@@ -45,6 +45,7 @@
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/family/arm/lm4/Seconds.h>
 #include <ti/sysbios/family/arm/lm4/Timer.h>
+#include <ti/sysbios/family/arm/lm4/TimestampProvider.h>
 #include <ti/sysbios/family/arm/m3/Hwi.h>
 #include <ti/sysbios/family/arm/m3/IntrinsicsSupport.h>
 #include <ti/sysbios/family/arm/m3/TaskSupport.h>
@@ -79,6 +80,7 @@
 #include <xdc/runtime/SysMin.h>
 #include <xdc/runtime/System.h>
 #include <xdc/runtime/Text.h>
+#include <xdc/runtime/Timestamp.h>
 
 /*
  * ======== ti.catalog.arm.cortexm4.tiva.ce.Boot INTERNALS ========
@@ -212,6 +214,11 @@ typedef struct {
 #else
     #define ti_sysbios_family_arm_lm4_Timer___ParamsPtr xdc_Ptr
 #endif
+
+
+/*
+ * ======== ti.sysbios.family.arm.lm4.TimestampProvider INTERNALS ========
+ */
 
 
 /*
@@ -1003,6 +1010,16 @@ typedef struct {
 
 
 /*
+ * ======== xdc.runtime.Timestamp INTERNALS ========
+ */
+
+
+/*
+ * ======== xdc.runtime.Timestamp_SupportProxy INTERNALS ========
+ */
+
+
+/*
  * ======== INHERITS ========
  */
 
@@ -1027,6 +1044,9 @@ __FAR__ const xdc_runtime_Types_Base ti_sysbios_interfaces_ISeconds_Interface__B
 #pragma DATA_SECTION(xdc_runtime_IModule_Interface__BASE__C, ".const:xdc_runtime_IModule_Interface__BASE__C");
 __FAR__ const xdc_runtime_Types_Base xdc_runtime_IModule_Interface__BASE__C = {0};
 
+#pragma DATA_SECTION(xdc_runtime_ITimestampClient_Interface__BASE__C, ".const:xdc_runtime_ITimestampClient_Interface__BASE__C");
+__FAR__ const xdc_runtime_Types_Base xdc_runtime_ITimestampClient_Interface__BASE__C = {(void*)&xdc_runtime_IModule_Interface__BASE__C};
+
 
 /*
  * ======== ti.sysbios.family.arm.lm4.Seconds VTABLE ========
@@ -1044,7 +1064,7 @@ const ti_sysbios_family_arm_lm4_Seconds_Fxns__ ti_sysbios_family_arm_lm4_Seconds
         NULL, /* __create */
         NULL, /* __delete */
         NULL, /* __label */
-        0x8037, /* __mid */
+        0x8038, /* __mid */
     } /* __sfxns */
 };
 
@@ -1063,7 +1083,7 @@ const ti_sysbios_family_arm_m3_IntrinsicsSupport_Fxns__ ti_sysbios_family_arm_m3
         NULL, /* __create */
         NULL, /* __delete */
         NULL, /* __label */
-        0x802c, /* __mid */
+        0x802d, /* __mid */
     } /* __sfxns */
 };
 
@@ -1084,7 +1104,7 @@ const ti_sysbios_gates_GateHwi_Fxns__ ti_sysbios_gates_GateHwi_Module__FXNS__C =
         ti_sysbios_gates_GateHwi_Object__create__S,
         ti_sysbios_gates_GateHwi_Object__delete__S,
         ti_sysbios_gates_GateHwi_Handle__label__S,
-        0x8032, /* __mid */
+        0x8033, /* __mid */
     } /* __sfxns */
 };
 
@@ -1105,7 +1125,7 @@ const ti_sysbios_gates_GateMutex_Fxns__ ti_sysbios_gates_GateMutex_Module__FXNS_
         ti_sysbios_gates_GateMutex_Object__create__S,
         ti_sysbios_gates_GateMutex_Object__delete__S,
         ti_sysbios_gates_GateMutex_Handle__label__S,
-        0x8033, /* __mid */
+        0x8034, /* __mid */
     } /* __sfxns */
 };
 
@@ -1131,7 +1151,7 @@ const ti_sysbios_hal_CacheNull_Fxns__ ti_sysbios_hal_CacheNull_Module__FXNS__C =
         NULL, /* __create */
         NULL, /* __delete */
         NULL, /* __label */
-        0x8023, /* __mid */
+        0x8024, /* __mid */
     } /* __sfxns */
 };
 
@@ -1153,7 +1173,7 @@ const ti_sysbios_heaps_HeapMem_Fxns__ ti_sysbios_heaps_HeapMem_Module__FXNS__C =
         ti_sysbios_heaps_HeapMem_Object__create__S,
         ti_sysbios_heaps_HeapMem_Object__delete__S,
         ti_sysbios_heaps_HeapMem_Handle__label__S,
-        0x8035, /* __mid */
+        0x8036, /* __mid */
     } /* __sfxns */
 };
 
@@ -1177,6 +1197,27 @@ const xdc_runtime_SysMin_Fxns__ xdc_runtime_SysMin_Module__FXNS__C = {
         NULL, /* __delete */
         NULL, /* __label */
         0x800e, /* __mid */
+    } /* __sfxns */
+};
+
+
+/*
+ * ======== xdc.runtime.Timestamp VTABLE ========
+ */
+
+/* Module__FXNS__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__FXNS__C, ".const:xdc_runtime_Timestamp_Module__FXNS__C");
+const xdc_runtime_Timestamp_Fxns__ xdc_runtime_Timestamp_Module__FXNS__C = {
+    (void*)&xdc_runtime_ITimestampClient_Interface__BASE__C, /* __base */
+    &xdc_runtime_Timestamp_Module__FXNS__C.__sfxns, /* __sysp */
+    xdc_runtime_Timestamp_get32__E,
+    xdc_runtime_Timestamp_get64__E,
+    xdc_runtime_Timestamp_getFreq__E,
+    {
+        NULL, /* __create */
+        NULL, /* __delete */
+        NULL, /* __label */
+        0x8010, /* __mid */
     } /* __sfxns */
 };
 
@@ -1244,7 +1285,7 @@ ti_sysbios_family_arm_lm4_Seconds_Module_State__ ti_sysbios_family_arm_lm4_Secon
 extern xdc_Void timerISR(xdc_UArg);
 
 /* Object__table__V */
-ti_sysbios_family_arm_lm4_Timer_Object__ ti_sysbios_family_arm_lm4_Timer_Object__table__V[2];
+ti_sysbios_family_arm_lm4_Timer_Object__ ti_sysbios_family_arm_lm4_Timer_Object__table__V[3];
 
 /* Module_State__ */
 typedef struct ti_sysbios_family_arm_lm4_Timer_Module_State__ {
@@ -1270,11 +1311,25 @@ extern xdc_Void ti_sysbios_family_arm_lm4_Timer_disableTiva(xdc_Int);
 
 
 /*
+ * ======== ti.sysbios.family.arm.lm4.TimestampProvider DECLARATIONS ========
+ */
+
+/* Module_State__ */
+typedef struct ti_sysbios_family_arm_lm4_TimestampProvider_Module_State__ {
+    ti_sysbios_family_arm_lm4_Timer_Handle timer;
+    volatile xdc_UInt32 hi;
+} ti_sysbios_family_arm_lm4_TimestampProvider_Module_State__;
+
+/* Module__state__V */
+ti_sysbios_family_arm_lm4_TimestampProvider_Module_State__ ti_sysbios_family_arm_lm4_TimestampProvider_Module__state__V;
+
+
+/*
  * ======== ti.sysbios.family.arm.m3.Hwi DECLARATIONS ========
  */
 
 /* Object__table__V */
-ti_sysbios_family_arm_m3_Hwi_Object__ ti_sysbios_family_arm_m3_Hwi_Object__table__V[2];
+ti_sysbios_family_arm_m3_Hwi_Object__ ti_sysbios_family_arm_m3_Hwi_Object__table__V[3];
 
 /* Module_State__ */
 typedef struct ti_sysbios_family_arm_m3_Hwi_Module_State__ {
@@ -1765,6 +1820,9 @@ extern xdc_Void ti_sysbios_hal_Hwi_initStack(xdc_Void);
 /* --> xdc_runtime_Startup_firstFxns__A */
 const __T1_xdc_runtime_Startup_firstFxns xdc_runtime_Startup_firstFxns__A[5];
 
+/* --> xdc_runtime_Startup_lastFxns__A */
+const __T1_xdc_runtime_Startup_lastFxns xdc_runtime_Startup_lastFxns__A[1];
+
 /* --> xdc_runtime_System_Module_startup__E */
 extern xdc_Int xdc_runtime_System_Module_startup__E(xdc_Int);
 
@@ -1792,14 +1850,17 @@ extern xdc_Int ti_sysbios_hal_Timer_Module_startup__E(xdc_Int);
 /* --> ti_sysbios_family_arm_m3_Hwi_Module_startup__E */
 extern xdc_Int ti_sysbios_family_arm_m3_Hwi_Module_startup__E(xdc_Int);
 
+/* --> ti_sysbios_family_arm_lm4_TimestampProvider_Module_startup__E */
+extern xdc_Int ti_sysbios_family_arm_lm4_TimestampProvider_Module_startup__E(xdc_Int);
+
 /* --> ti_sysbios_family_arm_lm4_Timer_Module_startup__E */
 extern xdc_Int ti_sysbios_family_arm_lm4_Timer_Module_startup__E(xdc_Int);
 
 /* --> xdc_runtime_Startup_sfxnTab__A */
-const __T1_xdc_runtime_Startup_sfxnTab xdc_runtime_Startup_sfxnTab__A[10];
+const __T1_xdc_runtime_Startup_sfxnTab xdc_runtime_Startup_sfxnTab__A[11];
 
 /* --> xdc_runtime_Startup_sfxnRts__A */
-const __T1_xdc_runtime_Startup_sfxnRts xdc_runtime_Startup_sfxnRts__A[10];
+const __T1_xdc_runtime_Startup_sfxnRts xdc_runtime_Startup_sfxnRts__A[11];
 
 
 /*
@@ -1867,10 +1928,20 @@ typedef struct xdc_runtime_Text_Module_State__ {
 xdc_runtime_Text_Module_State__ xdc_runtime_Text_Module__state__V;
 
 /* --> xdc_runtime_Text_charTab__A */
-const __T1_xdc_runtime_Text_charTab xdc_runtime_Text_charTab__A[6477];
+const __T1_xdc_runtime_Text_charTab xdc_runtime_Text_charTab__A[6505];
 
 /* --> xdc_runtime_Text_nodeTab__A */
-const __T1_xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__A[57];
+const __T1_xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__A[59];
+
+
+/*
+ * ======== xdc.runtime.Timestamp DECLARATIONS ========
+ */
+
+
+/*
+ * ======== xdc.runtime.Timestamp_SupportProxy DECLARATIONS ========
+ */
 
 
 /*
@@ -2019,8 +2090,11 @@ xdc_Bool ti_sysbios_hal_Timer_Module__startupDone__F(void) {
 xdc_Bool ti_sysbios_family_arm_m3_Hwi_Module__startupDone__F(void) {
     return (&xdc_runtime_Startup_Module__state__V)->stateTab == 0 || (&xdc_runtime_Startup_Module__state__V)->stateTab[8] < 0;
 }
-xdc_Bool ti_sysbios_family_arm_lm4_Timer_Module__startupDone__F(void) {
+xdc_Bool ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDone__F(void) {
     return (&xdc_runtime_Startup_Module__state__V)->stateTab == 0 || (&xdc_runtime_Startup_Module__state__V)->stateTab[9] < 0;
+}
+xdc_Bool ti_sysbios_family_arm_lm4_Timer_Module__startupDone__F(void) {
+    return (&xdc_runtime_Startup_Module__state__V)->stateTab == 0 || (&xdc_runtime_Startup_Module__state__V)->stateTab[10] < 0;
 }
 
 
@@ -2046,8 +2120,8 @@ xdc_Void xdc_runtime_Startup_exec__I(void) __attribute__ ((externally_visible));
  */
 xdc_Void xdc_runtime_Startup_exec__I(void)
 {
-    xdc_Int state[10];
-    xdc_runtime_Startup_startModsFxn__C(state, 10);
+    xdc_Int state[11];
+    xdc_runtime_Startup_startModsFxn__C(state, 11);
 }
 
 /*
@@ -3220,7 +3294,7 @@ __FAR__ const CT__ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__gatePrms ti_catal
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__id__C, ".const:ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__id__C");
-__FAR__ const CT__ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__id ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__id__C = (xdc_Bits16)0x8015;
+__FAR__ const CT__ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__id ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__id__C = (xdc_Bits16)0x8016;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__loggerDefined__C, ".const:ti_catalog_arm_cortexm4_tiva_ce_Boot_Module__loggerDefined__C");
@@ -3305,7 +3379,7 @@ __FAR__ const CT__ti_ndk_rov_Ndk_Module__gatePrms ti_ndk_rov_Ndk_Module__gatePrm
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_ndk_rov_Ndk_Module__id__C, ".const:ti_ndk_rov_Ndk_Module__id__C");
-__FAR__ const CT__ti_ndk_rov_Ndk_Module__id ti_ndk_rov_Ndk_Module__id__C = (xdc_Bits16)0x8030;
+__FAR__ const CT__ti_ndk_rov_Ndk_Module__id ti_ndk_rov_Ndk_Module__id__C = (xdc_Bits16)0x8031;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_ndk_rov_Ndk_Module__loggerDefined__C, ".const:ti_ndk_rov_Ndk_Module__loggerDefined__C");
@@ -3405,7 +3479,7 @@ __FAR__ const CT__ti_sysbios_BIOS_Module__gatePrms ti_sysbios_BIOS_Module__gateP
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_BIOS_Module__id__C, ".const:ti_sysbios_BIOS_Module__id__C");
-__FAR__ const CT__ti_sysbios_BIOS_Module__id ti_sysbios_BIOS_Module__id__C = (xdc_Bits16)0x8027;
+__FAR__ const CT__ti_sysbios_BIOS_Module__id ti_sysbios_BIOS_Module__id__C = (xdc_Bits16)0x8028;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_BIOS_Module__loggerDefined__C, ".const:ti_sysbios_BIOS_Module__loggerDefined__C");
@@ -3552,7 +3626,7 @@ __FAR__ const CT__ti_sysbios_family_arm_lm4_Seconds_Module__gatePrms ti_sysbios_
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_lm4_Seconds_Module__id__C, ".const:ti_sysbios_family_arm_lm4_Seconds_Module__id__C");
-__FAR__ const CT__ti_sysbios_family_arm_lm4_Seconds_Module__id ti_sysbios_family_arm_lm4_Seconds_Module__id__C = (xdc_Bits16)0x8037;
+__FAR__ const CT__ti_sysbios_family_arm_lm4_Seconds_Module__id ti_sysbios_family_arm_lm4_Seconds_Module__id__C = (xdc_Bits16)0x8038;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_lm4_Seconds_Module__loggerDefined__C, ".const:ti_sysbios_family_arm_lm4_Seconds_Module__loggerDefined__C");
@@ -3642,7 +3716,7 @@ ti_sysbios_family_arm_lm4_Timer_Module__ ti_sysbios_family_arm_lm4_Timer_Module_
 };
 
 /* Object__table__V */
-ti_sysbios_family_arm_lm4_Timer_Object__ ti_sysbios_family_arm_lm4_Timer_Object__table__V[2] = {
+ti_sysbios_family_arm_lm4_Timer_Object__ ti_sysbios_family_arm_lm4_Timer_Object__table__V[3] = {
     {/* instance#0 */
         0,
         1,  /* staticInst */
@@ -3680,6 +3754,27 @@ ti_sysbios_family_arm_lm4_Timer_Object__ ti_sysbios_family_arm_lm4_Timer_Object_
             (xdc_Bits32)0x0,  /* lo */
         },  /* extFreq */
         (ti_sysbios_family_arm_m3_Hwi_Handle)&ti_sysbios_family_arm_m3_Hwi_Object__table__V[1],  /* hwi */
+        (xdc_UInt)0xffffffff,  /* prevThreshold */
+        (xdc_UInt)0x0,  /* rollovers */
+        (xdc_UInt)0x0,  /* savedCurrCount */
+        0,  /* altclk */
+    },
+    {/* instance#2 */
+        0,
+        1,  /* staticInst */
+        (xdc_Int)0x2,  /* id */
+        ti_sysbios_interfaces_ITimer_RunMode_CONTINUOUS,  /* runMode */
+        ti_sysbios_interfaces_ITimer_StartMode_USER,  /* startMode */
+        (xdc_UInt)0xffffffff,  /* period */
+        ti_sysbios_interfaces_ITimer_PeriodType_COUNTS,  /* periodType */
+        (xdc_UInt)0x27,  /* intNum */
+        ((xdc_UArg)0),  /* arg */
+        ((xdc_Void(*)(xdc_UArg))((xdc_Fxn)ti_sysbios_family_arm_lm4_TimestampProvider_rolloverFunc__E)),  /* tickFxn */
+        {
+            (xdc_Bits32)0x0,  /* hi */
+            (xdc_Bits32)0x0,  /* lo */
+        },  /* extFreq */
+        (ti_sysbios_family_arm_m3_Hwi_Handle)&ti_sysbios_family_arm_m3_Hwi_Object__table__V[2],  /* hwi */
         (xdc_UInt)0xffffffff,  /* prevThreshold */
         (xdc_UInt)0x0,  /* rollovers */
         (xdc_UInt)0x0,  /* savedCurrCount */
@@ -3727,7 +3822,7 @@ __T1_ti_sysbios_family_arm_lm4_Timer_Module_State__device ti_sysbios_family_arm_
 __T1_ti_sysbios_family_arm_lm4_Timer_Module_State__handles ti_sysbios_family_arm_lm4_Timer_Module_State_0_handles__A[8] = {
     (ti_sysbios_family_arm_lm4_Timer_Handle)&ti_sysbios_family_arm_lm4_Timer_Object__table__V[0],  /* [0] */
     (ti_sysbios_family_arm_lm4_Timer_Handle)&ti_sysbios_family_arm_lm4_Timer_Object__table__V[1],  /* [1] */
-    0,  /* [2] */
+    (ti_sysbios_family_arm_lm4_Timer_Handle)&ti_sysbios_family_arm_lm4_Timer_Object__table__V[2],  /* [2] */
     0,  /* [3] */
     0,  /* [4] */
     0,  /* [5] */
@@ -3745,7 +3840,7 @@ ti_sysbios_family_arm_lm4_Timer_Module_State__ ti_sysbios_family_arm_lm4_Timer_M
 #endif
 #endif
 ti_sysbios_family_arm_lm4_Timer_Module_State__ ti_sysbios_family_arm_lm4_Timer_Module__state__V = {
-    (xdc_UInt)0xfc,  /* availMask */
+    (xdc_UInt)0xf8,  /* availMask */
     ((void*)ti_sysbios_family_arm_lm4_Timer_Module_State_0_device__A),  /* device */
     ((void*)ti_sysbios_family_arm_lm4_Timer_Module_State_0_handles__A),  /* handles */
 };
@@ -3772,7 +3867,7 @@ __FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_Module__gatePrms ti_sysbios_fa
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_lm4_Timer_Module__id__C, ".const:ti_sysbios_family_arm_lm4_Timer_Module__id__C");
-__FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_Module__id ti_sysbios_family_arm_lm4_Timer_Module__id__C = (xdc_Bits16)0x8038;
+__FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_Module__id ti_sysbios_family_arm_lm4_Timer_Module__id__C = (xdc_Bits16)0x803a;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_lm4_Timer_Module__loggerDefined__C, ".const:ti_sysbios_family_arm_lm4_Timer_Module__loggerDefined__C");
@@ -3808,7 +3903,7 @@ __FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_Module__startupDoneFxn ti_sysb
 
 /* Object__count__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_lm4_Timer_Object__count__C, ".const:ti_sysbios_family_arm_lm4_Timer_Object__count__C");
-__FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_Object__count ti_sysbios_family_arm_lm4_Timer_Object__count__C = 2;
+__FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_Object__count ti_sysbios_family_arm_lm4_Timer_Object__count__C = 3;
 
 /* Object__heap__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_lm4_Timer_Object__heap__C, ".const:ti_sysbios_family_arm_lm4_Timer_Object__heap__C");
@@ -3864,6 +3959,105 @@ __FAR__ const CT__ti_sysbios_family_arm_lm4_Timer_numTimerDevices ti_sysbios_fam
 
 
 /*
+ * ======== ti.sysbios.family.arm.lm4.TimestampProvider INITIALIZERS ========
+ */
+
+/* Module__state__V */
+#if defined (__ICCARM__)
+#pragma location = ".data_ti_sysbios_family_arm_lm4_TimestampProvider_Module__state__V"
+#endif
+#if defined(__GNUC__) && !(defined(__MACH__) && defined(__APPLE__))
+#ifndef __TI_COMPILER_VERSION__
+ti_sysbios_family_arm_lm4_TimestampProvider_Module_State__ ti_sysbios_family_arm_lm4_TimestampProvider_Module__state__V __attribute__ ((section(".data_ti_sysbios_family_arm_lm4_TimestampProvider_Module__state__V")));
+#endif
+#endif
+ti_sysbios_family_arm_lm4_TimestampProvider_Module_State__ ti_sysbios_family_arm_lm4_TimestampProvider_Module__state__V = {
+    (ti_sysbios_family_arm_lm4_Timer_Handle)&ti_sysbios_family_arm_lm4_Timer_Object__table__V[2],  /* timer */
+    (xdc_UInt32)0x0,  /* hi */
+};
+
+/* Module__diagsEnabled__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsEnabled__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsEnabled__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsEnabled ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsEnabled__C = (xdc_Bits32)0x10;
+
+/* Module__diagsIncluded__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsIncluded__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsIncluded__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsIncluded ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsIncluded__C = (xdc_Bits32)0x10;
+
+/* Module__diagsMask__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsMask__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsMask__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsMask ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsMask__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__diagsMask)0);
+
+/* Module__gateObj__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__gateObj__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__gateObj__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__gateObj ti_sysbios_family_arm_lm4_TimestampProvider_Module__gateObj__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__gateObj)0);
+
+/* Module__gatePrms__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__gatePrms__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__gatePrms__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__gatePrms ti_sysbios_family_arm_lm4_TimestampProvider_Module__gatePrms__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__gatePrms)0);
+
+/* Module__id__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__id__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__id__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__id ti_sysbios_family_arm_lm4_TimestampProvider_Module__id__C = (xdc_Bits16)0x8039;
+
+/* Module__loggerDefined__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerDefined__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerDefined__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerDefined ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerDefined__C = 0;
+
+/* Module__loggerObj__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerObj__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerObj__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerObj ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerObj__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerObj)0);
+
+/* Module__loggerFxn0__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn0__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn0__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn0 ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn0__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn0)0);
+
+/* Module__loggerFxn1__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn1__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn1__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn1 ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn1__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn1)0);
+
+/* Module__loggerFxn2__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn2__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn2__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn2 ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn2__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn2)0);
+
+/* Module__loggerFxn4__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn4__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn4__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn4 ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn4__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn4)0);
+
+/* Module__loggerFxn8__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn8__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn8__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn8 ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn8__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__loggerFxn8)0);
+
+/* Module__startupDoneFxn__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDoneFxn__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDoneFxn__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDoneFxn ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDoneFxn__C = ((CT__ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDoneFxn)0);
+
+/* Object__count__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Object__count__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Object__count__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Object__count ti_sysbios_family_arm_lm4_TimestampProvider_Object__count__C = 0;
+
+/* Object__heap__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Object__heap__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Object__heap__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Object__heap ti_sysbios_family_arm_lm4_TimestampProvider_Object__heap__C = 0;
+
+/* Object__sizeof__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Object__sizeof__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Object__sizeof__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Object__sizeof ti_sysbios_family_arm_lm4_TimestampProvider_Object__sizeof__C = 0;
+
+/* Object__table__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_Object__table__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_Object__table__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_Object__table ti_sysbios_family_arm_lm4_TimestampProvider_Object__table__C = 0;
+
+/* useClockTimer__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_useClockTimer__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_useClockTimer__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_useClockTimer ti_sysbios_family_arm_lm4_TimestampProvider_useClockTimer__C = 0;
+
+/* timerId__C */
+#pragma DATA_SECTION(ti_sysbios_family_arm_lm4_TimestampProvider_timerId__C, ".const:ti_sysbios_family_arm_lm4_TimestampProvider_timerId__C");
+__FAR__ const CT__ti_sysbios_family_arm_lm4_TimestampProvider_timerId ti_sysbios_family_arm_lm4_TimestampProvider_timerId__C = (xdc_UInt)(-0x0 - 1);
+
+
+/*
  * ======== ti.sysbios.family.arm.m3.Hwi INITIALIZERS ========
  */
 
@@ -3896,7 +4090,7 @@ ti_sysbios_family_arm_m3_Hwi_Module__ ti_sysbios_family_arm_m3_Hwi_Module__root_
 };
 
 /* Object__table__V */
-ti_sysbios_family_arm_m3_Hwi_Object__ ti_sysbios_family_arm_m3_Hwi_Object__table__V[2] = {
+ti_sysbios_family_arm_m3_Hwi_Object__ ti_sysbios_family_arm_m3_Hwi_Object__table__V[3] = {
     {/* instance#0 */
         0,
         ((xdc_UArg)((void*)(ti_sysbios_family_arm_lm4_Timer_Handle)&ti_sysbios_family_arm_lm4_Timer_Object__table__V[0])),  /* arg */
@@ -3913,6 +4107,15 @@ ti_sysbios_family_arm_m3_Hwi_Object__ ti_sysbios_family_arm_m3_Hwi_Object__table
         ((xdc_UArg)(0x3)),  /* irp */
         (xdc_UInt8)0xff,  /* priority */
         (xdc_Int16)0x25,  /* intNum */
+        ((void*)0),  /* hookEnv */
+    },
+    {/* instance#2 */
+        0,
+        ((xdc_UArg)((void*)(ti_sysbios_family_arm_lm4_Timer_Handle)&ti_sysbios_family_arm_lm4_Timer_Object__table__V[2])),  /* arg */
+        ((xdc_Void(*)(xdc_UArg))((xdc_Fxn)ti_sysbios_family_arm_lm4_Timer_isrStub__E)),  /* fxn */
+        ((xdc_UArg)(0x3)),  /* irp */
+        (xdc_UInt8)0xff,  /* priority */
+        (xdc_Int16)0x27,  /* intNum */
         ((void*)0),  /* hookEnv */
     },
 };
@@ -3986,7 +4189,7 @@ __FAR__ const CT__ti_sysbios_family_arm_m3_Hwi_Module__gatePrms ti_sysbios_famil
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_Hwi_Module__id__C, ".const:ti_sysbios_family_arm_m3_Hwi_Module__id__C");
-__FAR__ const CT__ti_sysbios_family_arm_m3_Hwi_Module__id ti_sysbios_family_arm_m3_Hwi_Module__id__C = (xdc_Bits16)0x802b;
+__FAR__ const CT__ti_sysbios_family_arm_m3_Hwi_Module__id ti_sysbios_family_arm_m3_Hwi_Module__id__C = (xdc_Bits16)0x802c;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_Hwi_Module__loggerDefined__C, ".const:ti_sysbios_family_arm_m3_Hwi_Module__loggerDefined__C");
@@ -4022,7 +4225,7 @@ __FAR__ const CT__ti_sysbios_family_arm_m3_Hwi_Module__startupDoneFxn ti_sysbios
 
 /* Object__count__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_Hwi_Object__count__C, ".const:ti_sysbios_family_arm_m3_Hwi_Object__count__C");
-__FAR__ const CT__ti_sysbios_family_arm_m3_Hwi_Object__count ti_sysbios_family_arm_m3_Hwi_Object__count__C = 2;
+__FAR__ const CT__ti_sysbios_family_arm_m3_Hwi_Object__count ti_sysbios_family_arm_m3_Hwi_Object__count__C = 3;
 
 /* Object__heap__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_Hwi_Object__heap__C, ".const:ti_sysbios_family_arm_m3_Hwi_Object__heap__C");
@@ -4199,7 +4402,7 @@ __FAR__ const CT__ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__gatePrms ti
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__id__C, ".const:ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__id__C");
-__FAR__ const CT__ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__id ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__id__C = (xdc_Bits16)0x802c;
+__FAR__ const CT__ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__id ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__id__C = (xdc_Bits16)0x802d;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__loggerDefined__C, ".const:ti_sysbios_family_arm_m3_IntrinsicsSupport_Module__loggerDefined__C");
@@ -4276,7 +4479,7 @@ __FAR__ const CT__ti_sysbios_family_arm_m3_TaskSupport_Module__gatePrms ti_sysbi
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_TaskSupport_Module__id__C, ".const:ti_sysbios_family_arm_m3_TaskSupport_Module__id__C");
-__FAR__ const CT__ti_sysbios_family_arm_m3_TaskSupport_Module__id ti_sysbios_family_arm_m3_TaskSupport_Module__id__C = (xdc_Bits16)0x802d;
+__FAR__ const CT__ti_sysbios_family_arm_m3_TaskSupport_Module__id ti_sysbios_family_arm_m3_TaskSupport_Module__id__C = (xdc_Bits16)0x802e;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_family_arm_m3_TaskSupport_Module__loggerDefined__C, ".const:ti_sysbios_family_arm_m3_TaskSupport_Module__loggerDefined__C");
@@ -4390,7 +4593,7 @@ __FAR__ const CT__ti_sysbios_gates_GateHwi_Module__gatePrms ti_sysbios_gates_Gat
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_gates_GateHwi_Module__id__C, ".const:ti_sysbios_gates_GateHwi_Module__id__C");
-__FAR__ const CT__ti_sysbios_gates_GateHwi_Module__id ti_sysbios_gates_GateHwi_Module__id__C = (xdc_Bits16)0x8032;
+__FAR__ const CT__ti_sysbios_gates_GateHwi_Module__id ti_sysbios_gates_GateHwi_Module__id__C = (xdc_Bits16)0x8033;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_gates_GateHwi_Module__loggerDefined__C, ".const:ti_sysbios_gates_GateHwi_Module__loggerDefined__C");
@@ -4525,7 +4728,7 @@ __FAR__ const CT__ti_sysbios_gates_GateMutex_Module__gatePrms ti_sysbios_gates_G
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_gates_GateMutex_Module__id__C, ".const:ti_sysbios_gates_GateMutex_Module__id__C");
-__FAR__ const CT__ti_sysbios_gates_GateMutex_Module__id ti_sysbios_gates_GateMutex_Module__id__C = (xdc_Bits16)0x8033;
+__FAR__ const CT__ti_sysbios_gates_GateMutex_Module__id ti_sysbios_gates_GateMutex_Module__id__C = (xdc_Bits16)0x8034;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_gates_GateMutex_Module__loggerDefined__C, ".const:ti_sysbios_gates_GateMutex_Module__loggerDefined__C");
@@ -4606,7 +4809,7 @@ __FAR__ const CT__ti_sysbios_hal_Cache_Module__gatePrms ti_sysbios_hal_Cache_Mod
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Cache_Module__id__C, ".const:ti_sysbios_hal_Cache_Module__id__C");
-__FAR__ const CT__ti_sysbios_hal_Cache_Module__id ti_sysbios_hal_Cache_Module__id__C = (xdc_Bits16)0x8022;
+__FAR__ const CT__ti_sysbios_hal_Cache_Module__id ti_sysbios_hal_Cache_Module__id__C = (xdc_Bits16)0x8023;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Cache_Module__loggerDefined__C, ".const:ti_sysbios_hal_Cache_Module__loggerDefined__C");
@@ -4683,7 +4886,7 @@ __FAR__ const CT__ti_sysbios_hal_CacheNull_Module__gatePrms ti_sysbios_hal_Cache
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_hal_CacheNull_Module__id__C, ".const:ti_sysbios_hal_CacheNull_Module__id__C");
-__FAR__ const CT__ti_sysbios_hal_CacheNull_Module__id ti_sysbios_hal_CacheNull_Module__id__C = (xdc_Bits16)0x8023;
+__FAR__ const CT__ti_sysbios_hal_CacheNull_Module__id ti_sysbios_hal_CacheNull_Module__id__C = (xdc_Bits16)0x8024;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_hal_CacheNull_Module__loggerDefined__C, ".const:ti_sysbios_hal_CacheNull_Module__loggerDefined__C");
@@ -4792,7 +4995,7 @@ __FAR__ const CT__ti_sysbios_hal_Hwi_Module__gatePrms ti_sysbios_hal_Hwi_Module_
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Hwi_Module__id__C, ".const:ti_sysbios_hal_Hwi_Module__id__C");
-__FAR__ const CT__ti_sysbios_hal_Hwi_Module__id ti_sysbios_hal_Hwi_Module__id__C = (xdc_Bits16)0x8024;
+__FAR__ const CT__ti_sysbios_hal_Hwi_Module__id ti_sysbios_hal_Hwi_Module__id__C = (xdc_Bits16)0x8025;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Hwi_Module__loggerDefined__C, ".const:ti_sysbios_hal_Hwi_Module__loggerDefined__C");
@@ -4894,7 +5097,7 @@ __FAR__ const CT__ti_sysbios_hal_Seconds_Module__gatePrms ti_sysbios_hal_Seconds
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Seconds_Module__id__C, ".const:ti_sysbios_hal_Seconds_Module__id__C");
-__FAR__ const CT__ti_sysbios_hal_Seconds_Module__id ti_sysbios_hal_Seconds_Module__id__C = (xdc_Bits16)0x8025;
+__FAR__ const CT__ti_sysbios_hal_Seconds_Module__id ti_sysbios_hal_Seconds_Module__id__C = (xdc_Bits16)0x8026;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Seconds_Module__loggerDefined__C, ".const:ti_sysbios_hal_Seconds_Module__loggerDefined__C");
@@ -5015,7 +5218,7 @@ __FAR__ const CT__ti_sysbios_hal_Timer_Module__gatePrms ti_sysbios_hal_Timer_Mod
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Timer_Module__id__C, ".const:ti_sysbios_hal_Timer_Module__id__C");
-__FAR__ const CT__ti_sysbios_hal_Timer_Module__id ti_sysbios_hal_Timer_Module__id__C = (xdc_Bits16)0x8026;
+__FAR__ const CT__ti_sysbios_hal_Timer_Module__id ti_sysbios_hal_Timer_Module__id__C = (xdc_Bits16)0x8027;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_hal_Timer_Module__loggerDefined__C, ".const:ti_sysbios_hal_Timer_Module__loggerDefined__C");
@@ -5139,7 +5342,7 @@ __FAR__ const CT__ti_sysbios_heaps_HeapMem_Module__gatePrms ti_sysbios_heaps_Hea
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_heaps_HeapMem_Module__id__C, ".const:ti_sysbios_heaps_HeapMem_Module__id__C");
-__FAR__ const CT__ti_sysbios_heaps_HeapMem_Module__id ti_sysbios_heaps_HeapMem_Module__id__C = (xdc_Bits16)0x8035;
+__FAR__ const CT__ti_sysbios_heaps_HeapMem_Module__id ti_sysbios_heaps_HeapMem_Module__id__C = (xdc_Bits16)0x8036;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_heaps_HeapMem_Module__loggerDefined__C, ".const:ti_sysbios_heaps_HeapMem_Module__loggerDefined__C");
@@ -5306,7 +5509,7 @@ __FAR__ const CT__ti_sysbios_knl_Clock_Module__gatePrms ti_sysbios_knl_Clock_Mod
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Clock_Module__id__C, ".const:ti_sysbios_knl_Clock_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Clock_Module__id ti_sysbios_knl_Clock_Module__id__C = (xdc_Bits16)0x8018;
+__FAR__ const CT__ti_sysbios_knl_Clock_Module__id ti_sysbios_knl_Clock_Module__id__C = (xdc_Bits16)0x8019;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Clock_Module__loggerDefined__C, ".const:ti_sysbios_knl_Clock_Module__loggerDefined__C");
@@ -5458,7 +5661,7 @@ __FAR__ const CT__ti_sysbios_knl_Event_Module__gatePrms ti_sysbios_knl_Event_Mod
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Event_Module__id__C, ".const:ti_sysbios_knl_Event_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Event_Module__id ti_sysbios_knl_Event_Module__id__C = (xdc_Bits16)0x801b;
+__FAR__ const CT__ti_sysbios_knl_Event_Module__id ti_sysbios_knl_Event_Module__id__C = (xdc_Bits16)0x801c;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Event_Module__loggerDefined__C, ".const:ti_sysbios_knl_Event_Module__loggerDefined__C");
@@ -5577,7 +5780,7 @@ __FAR__ const CT__ti_sysbios_knl_Idle_Module__gatePrms ti_sysbios_knl_Idle_Modul
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Idle_Module__id__C, ".const:ti_sysbios_knl_Idle_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Idle_Module__id ti_sysbios_knl_Idle_Module__id__C = (xdc_Bits16)0x8019;
+__FAR__ const CT__ti_sysbios_knl_Idle_Module__id ti_sysbios_knl_Idle_Module__id__C = (xdc_Bits16)0x801a;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Idle_Module__loggerDefined__C, ".const:ti_sysbios_knl_Idle_Module__loggerDefined__C");
@@ -5662,7 +5865,7 @@ __FAR__ const CT__ti_sysbios_knl_Intrinsics_Module__gatePrms ti_sysbios_knl_Intr
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Intrinsics_Module__id__C, ".const:ti_sysbios_knl_Intrinsics_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Intrinsics_Module__id ti_sysbios_knl_Intrinsics_Module__id__C = (xdc_Bits16)0x801a;
+__FAR__ const CT__ti_sysbios_knl_Intrinsics_Module__id ti_sysbios_knl_Intrinsics_Module__id__C = (xdc_Bits16)0x801b;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Intrinsics_Module__loggerDefined__C, ".const:ti_sysbios_knl_Intrinsics_Module__loggerDefined__C");
@@ -5824,7 +6027,7 @@ __FAR__ const CT__ti_sysbios_knl_Mailbox_Module__gatePrms ti_sysbios_knl_Mailbox
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Mailbox_Module__id__C, ".const:ti_sysbios_knl_Mailbox_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Mailbox_Module__id ti_sysbios_knl_Mailbox_Module__id__C = (xdc_Bits16)0x801c;
+__FAR__ const CT__ti_sysbios_knl_Mailbox_Module__id ti_sysbios_knl_Mailbox_Module__id__C = (xdc_Bits16)0x801d;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Mailbox_Module__loggerDefined__C, ".const:ti_sysbios_knl_Mailbox_Module__loggerDefined__C");
@@ -5931,7 +6134,7 @@ __FAR__ const CT__ti_sysbios_knl_Queue_Module__gatePrms ti_sysbios_knl_Queue_Mod
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Queue_Module__id__C, ".const:ti_sysbios_knl_Queue_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Queue_Module__id ti_sysbios_knl_Queue_Module__id__C = (xdc_Bits16)0x801d;
+__FAR__ const CT__ti_sysbios_knl_Queue_Module__id ti_sysbios_knl_Queue_Module__id__C = (xdc_Bits16)0x801e;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Queue_Module__loggerDefined__C, ".const:ti_sysbios_knl_Queue_Module__loggerDefined__C");
@@ -6017,7 +6220,7 @@ ti_sysbios_knl_Semaphore_Object__ ti_sysbios_knl_Semaphore_Object__table__V[1] =
         0,  /* event */
         (xdc_UInt)0x1,  /* eventId */
         ti_sysbios_knl_Semaphore_Mode_BINARY,  /* mode */
-        (xdc_UInt16)0x0,  /* count */
+        (xdc_UInt16)0x1,  /* count */
         {
             {
                 ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Semaphore_Object__table__V[0].Object_field_pendQ.elem)),  /* next */
@@ -6049,7 +6252,7 @@ __FAR__ const CT__ti_sysbios_knl_Semaphore_Module__gatePrms ti_sysbios_knl_Semap
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Semaphore_Module__id__C, ".const:ti_sysbios_knl_Semaphore_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Semaphore_Module__id ti_sysbios_knl_Semaphore_Module__id__C = (xdc_Bits16)0x801e;
+__FAR__ const CT__ti_sysbios_knl_Semaphore_Module__id ti_sysbios_knl_Semaphore_Module__id__C = (xdc_Bits16)0x801f;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Semaphore_Module__loggerDefined__C, ".const:ti_sysbios_knl_Semaphore_Module__loggerDefined__C");
@@ -6351,7 +6554,7 @@ __FAR__ const CT__ti_sysbios_knl_Swi_Module__gatePrms ti_sysbios_knl_Swi_Module_
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Swi_Module__id__C, ".const:ti_sysbios_knl_Swi_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Swi_Module__id ti_sysbios_knl_Swi_Module__id__C = (xdc_Bits16)0x801f;
+__FAR__ const CT__ti_sysbios_knl_Swi_Module__id ti_sysbios_knl_Swi_Module__id__C = (xdc_Bits16)0x8020;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Swi_Module__loggerDefined__C, ".const:ti_sysbios_knl_Swi_Module__loggerDefined__C");
@@ -6716,7 +6919,7 @@ __FAR__ const CT__ti_sysbios_knl_Task_Module__gatePrms ti_sysbios_knl_Task_Modul
 
 /* Module__id__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Task_Module__id__C, ".const:ti_sysbios_knl_Task_Module__id__C");
-__FAR__ const CT__ti_sysbios_knl_Task_Module__id ti_sysbios_knl_Task_Module__id__C = (xdc_Bits16)0x8020;
+__FAR__ const CT__ti_sysbios_knl_Task_Module__id ti_sysbios_knl_Task_Module__id__C = (xdc_Bits16)0x8021;
 
 /* Module__loggerDefined__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Task_Module__loggerDefined__C, ".const:ti_sysbios_knl_Task_Module__loggerDefined__C");
@@ -7841,9 +8044,15 @@ const __T1_xdc_runtime_Startup_firstFxns xdc_runtime_Startup_firstFxns__A[5] = {
     ((xdc_Void(*)(xdc_Void))((xdc_Fxn)ti_sysbios_family_arm_lm4_Timer_enableTimers__I)),  /* [4] */
 };
 
+/* --> xdc_runtime_Startup_lastFxns__A */
+#pragma DATA_SECTION(xdc_runtime_Startup_lastFxns__A, ".const:xdc_runtime_Startup_lastFxns__A");
+const __T1_xdc_runtime_Startup_lastFxns xdc_runtime_Startup_lastFxns__A[1] = {
+    ((xdc_Void(*)(xdc_Void))((xdc_Fxn)ti_sysbios_family_arm_lm4_TimestampProvider_startTimer__E)),  /* [0] */
+};
+
 /* --> xdc_runtime_Startup_sfxnTab__A */
 #pragma DATA_SECTION(xdc_runtime_Startup_sfxnTab__A, ".const:xdc_runtime_Startup_sfxnTab__A");
-const __T1_xdc_runtime_Startup_sfxnTab xdc_runtime_Startup_sfxnTab__A[10] = {
+const __T1_xdc_runtime_Startup_sfxnTab xdc_runtime_Startup_sfxnTab__A[11] = {
     ((xdc_Int(*)(xdc_Int))((xdc_Fxn)xdc_runtime_System_Module_startup__E)),  /* [0] */
     ((xdc_Int(*)(xdc_Int))((xdc_Fxn)xdc_runtime_SysMin_Module_startup__E)),  /* [1] */
     ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_knl_Clock_Module_startup__E)),  /* [2] */
@@ -7853,12 +8062,13 @@ const __T1_xdc_runtime_Startup_sfxnTab xdc_runtime_Startup_sfxnTab__A[10] = {
     ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_hal_Hwi_Module_startup__E)),  /* [6] */
     ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_hal_Timer_Module_startup__E)),  /* [7] */
     ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_family_arm_m3_Hwi_Module_startup__E)),  /* [8] */
-    ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_family_arm_lm4_Timer_Module_startup__E)),  /* [9] */
+    ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_family_arm_lm4_TimestampProvider_Module_startup__E)),  /* [9] */
+    ((xdc_Int(*)(xdc_Int))((xdc_Fxn)ti_sysbios_family_arm_lm4_Timer_Module_startup__E)),  /* [10] */
 };
 
 /* --> xdc_runtime_Startup_sfxnRts__A */
 #pragma DATA_SECTION(xdc_runtime_Startup_sfxnRts__A, ".const:xdc_runtime_Startup_sfxnRts__A");
-const __T1_xdc_runtime_Startup_sfxnRts xdc_runtime_Startup_sfxnRts__A[10] = {
+const __T1_xdc_runtime_Startup_sfxnRts xdc_runtime_Startup_sfxnRts__A[11] = {
     1,  /* [0] */
     1,  /* [1] */
     0,  /* [2] */
@@ -7868,7 +8078,8 @@ const __T1_xdc_runtime_Startup_sfxnRts xdc_runtime_Startup_sfxnRts__A[10] = {
     0,  /* [6] */
     0,  /* [7] */
     0,  /* [8] */
-    0,  /* [9] */
+    1,  /* [9] */
+    0,  /* [10] */
 };
 
 /* Module__diagsEnabled__C */
@@ -7953,7 +8164,7 @@ __FAR__ const CT__xdc_runtime_Startup_firstFxns xdc_runtime_Startup_firstFxns__C
 
 /* lastFxns__C */
 #pragma DATA_SECTION(xdc_runtime_Startup_lastFxns__C, ".const:xdc_runtime_Startup_lastFxns__C");
-__FAR__ const CT__xdc_runtime_Startup_lastFxns xdc_runtime_Startup_lastFxns__C = {0, 0};
+__FAR__ const CT__xdc_runtime_Startup_lastFxns xdc_runtime_Startup_lastFxns__C = {1, ((__T1_xdc_runtime_Startup_lastFxns*)xdc_runtime_Startup_lastFxns__A)};
 
 /* startModsFxn__C */
 #pragma DATA_SECTION(xdc_runtime_Startup_startModsFxn__C, ".const:xdc_runtime_Startup_startModsFxn__C");
@@ -8230,7 +8441,7 @@ xdc_runtime_Text_Module_State__ xdc_runtime_Text_Module__state__V = {
 
 /* --> xdc_runtime_Text_charTab__A */
 #pragma DATA_SECTION(xdc_runtime_Text_charTab__A, ".const:xdc_runtime_Text_charTab__A");
-const __T1_xdc_runtime_Text_charTab xdc_runtime_Text_charTab__A[6477] = {
+const __T1_xdc_runtime_Text_charTab xdc_runtime_Text_charTab__A[6505] = {
     (xdc_Char)0x0,  /* [0] */
     (xdc_Char)0x41,  /* [1] */
     (xdc_Char)0x5f,  /* [2] */
@@ -14367,352 +14578,380 @@ const __T1_xdc_runtime_Text_charTab xdc_runtime_Text_charTab__A[6477] = {
     (xdc_Char)0x78,  /* [6133] */
     (xdc_Char)0x74,  /* [6134] */
     (xdc_Char)0x0,  /* [6135] */
-    (xdc_Char)0x74,  /* [6136] */
+    (xdc_Char)0x54,  /* [6136] */
     (xdc_Char)0x69,  /* [6137] */
-    (xdc_Char)0x2e,  /* [6138] */
-    (xdc_Char)0x0,  /* [6139] */
-    (xdc_Char)0x63,  /* [6140] */
-    (xdc_Char)0x61,  /* [6141] */
-    (xdc_Char)0x74,  /* [6142] */
-    (xdc_Char)0x61,  /* [6143] */
-    (xdc_Char)0x6c,  /* [6144] */
-    (xdc_Char)0x6f,  /* [6145] */
-    (xdc_Char)0x67,  /* [6146] */
-    (xdc_Char)0x2e,  /* [6147] */
-    (xdc_Char)0x0,  /* [6148] */
-    (xdc_Char)0x61,  /* [6149] */
-    (xdc_Char)0x72,  /* [6150] */
-    (xdc_Char)0x6d,  /* [6151] */
-    (xdc_Char)0x2e,  /* [6152] */
-    (xdc_Char)0x0,  /* [6153] */
-    (xdc_Char)0x63,  /* [6154] */
+    (xdc_Char)0x6d,  /* [6138] */
+    (xdc_Char)0x65,  /* [6139] */
+    (xdc_Char)0x73,  /* [6140] */
+    (xdc_Char)0x74,  /* [6141] */
+    (xdc_Char)0x61,  /* [6142] */
+    (xdc_Char)0x6d,  /* [6143] */
+    (xdc_Char)0x70,  /* [6144] */
+    (xdc_Char)0x0,  /* [6145] */
+    (xdc_Char)0x74,  /* [6146] */
+    (xdc_Char)0x69,  /* [6147] */
+    (xdc_Char)0x2e,  /* [6148] */
+    (xdc_Char)0x0,  /* [6149] */
+    (xdc_Char)0x63,  /* [6150] */
+    (xdc_Char)0x61,  /* [6151] */
+    (xdc_Char)0x74,  /* [6152] */
+    (xdc_Char)0x61,  /* [6153] */
+    (xdc_Char)0x6c,  /* [6154] */
     (xdc_Char)0x6f,  /* [6155] */
-    (xdc_Char)0x72,  /* [6156] */
-    (xdc_Char)0x74,  /* [6157] */
-    (xdc_Char)0x65,  /* [6158] */
-    (xdc_Char)0x78,  /* [6159] */
-    (xdc_Char)0x6d,  /* [6160] */
-    (xdc_Char)0x34,  /* [6161] */
+    (xdc_Char)0x67,  /* [6156] */
+    (xdc_Char)0x2e,  /* [6157] */
+    (xdc_Char)0x0,  /* [6158] */
+    (xdc_Char)0x61,  /* [6159] */
+    (xdc_Char)0x72,  /* [6160] */
+    (xdc_Char)0x6d,  /* [6161] */
     (xdc_Char)0x2e,  /* [6162] */
     (xdc_Char)0x0,  /* [6163] */
-    (xdc_Char)0x74,  /* [6164] */
-    (xdc_Char)0x69,  /* [6165] */
-    (xdc_Char)0x76,  /* [6166] */
-    (xdc_Char)0x61,  /* [6167] */
-    (xdc_Char)0x2e,  /* [6168] */
-    (xdc_Char)0x0,  /* [6169] */
-    (xdc_Char)0x63,  /* [6170] */
-    (xdc_Char)0x65,  /* [6171] */
+    (xdc_Char)0x63,  /* [6164] */
+    (xdc_Char)0x6f,  /* [6165] */
+    (xdc_Char)0x72,  /* [6166] */
+    (xdc_Char)0x74,  /* [6167] */
+    (xdc_Char)0x65,  /* [6168] */
+    (xdc_Char)0x78,  /* [6169] */
+    (xdc_Char)0x6d,  /* [6170] */
+    (xdc_Char)0x34,  /* [6171] */
     (xdc_Char)0x2e,  /* [6172] */
     (xdc_Char)0x0,  /* [6173] */
-    (xdc_Char)0x42,  /* [6174] */
-    (xdc_Char)0x6f,  /* [6175] */
-    (xdc_Char)0x6f,  /* [6176] */
-    (xdc_Char)0x74,  /* [6177] */
-    (xdc_Char)0x0,  /* [6178] */
-    (xdc_Char)0x73,  /* [6179] */
-    (xdc_Char)0x79,  /* [6180] */
-    (xdc_Char)0x73,  /* [6181] */
-    (xdc_Char)0x62,  /* [6182] */
-    (xdc_Char)0x69,  /* [6183] */
-    (xdc_Char)0x6f,  /* [6184] */
-    (xdc_Char)0x73,  /* [6185] */
-    (xdc_Char)0x2e,  /* [6186] */
-    (xdc_Char)0x0,  /* [6187] */
-    (xdc_Char)0x6b,  /* [6188] */
-    (xdc_Char)0x6e,  /* [6189] */
-    (xdc_Char)0x6c,  /* [6190] */
-    (xdc_Char)0x2e,  /* [6191] */
-    (xdc_Char)0x0,  /* [6192] */
-    (xdc_Char)0x43,  /* [6193] */
-    (xdc_Char)0x6c,  /* [6194] */
-    (xdc_Char)0x6f,  /* [6195] */
-    (xdc_Char)0x63,  /* [6196] */
-    (xdc_Char)0x6b,  /* [6197] */
-    (xdc_Char)0x0,  /* [6198] */
-    (xdc_Char)0x49,  /* [6199] */
-    (xdc_Char)0x64,  /* [6200] */
-    (xdc_Char)0x6c,  /* [6201] */
-    (xdc_Char)0x65,  /* [6202] */
-    (xdc_Char)0x0,  /* [6203] */
-    (xdc_Char)0x49,  /* [6204] */
-    (xdc_Char)0x6e,  /* [6205] */
-    (xdc_Char)0x74,  /* [6206] */
-    (xdc_Char)0x72,  /* [6207] */
-    (xdc_Char)0x69,  /* [6208] */
-    (xdc_Char)0x6e,  /* [6209] */
-    (xdc_Char)0x73,  /* [6210] */
-    (xdc_Char)0x69,  /* [6211] */
-    (xdc_Char)0x63,  /* [6212] */
-    (xdc_Char)0x73,  /* [6213] */
-    (xdc_Char)0x0,  /* [6214] */
-    (xdc_Char)0x45,  /* [6215] */
-    (xdc_Char)0x76,  /* [6216] */
-    (xdc_Char)0x65,  /* [6217] */
-    (xdc_Char)0x6e,  /* [6218] */
-    (xdc_Char)0x74,  /* [6219] */
-    (xdc_Char)0x0,  /* [6220] */
-    (xdc_Char)0x4d,  /* [6221] */
-    (xdc_Char)0x61,  /* [6222] */
-    (xdc_Char)0x69,  /* [6223] */
-    (xdc_Char)0x6c,  /* [6224] */
-    (xdc_Char)0x62,  /* [6225] */
-    (xdc_Char)0x6f,  /* [6226] */
-    (xdc_Char)0x78,  /* [6227] */
-    (xdc_Char)0x0,  /* [6228] */
-    (xdc_Char)0x51,  /* [6229] */
-    (xdc_Char)0x75,  /* [6230] */
-    (xdc_Char)0x65,  /* [6231] */
-    (xdc_Char)0x75,  /* [6232] */
-    (xdc_Char)0x65,  /* [6233] */
-    (xdc_Char)0x0,  /* [6234] */
-    (xdc_Char)0x53,  /* [6235] */
-    (xdc_Char)0x65,  /* [6236] */
-    (xdc_Char)0x6d,  /* [6237] */
-    (xdc_Char)0x61,  /* [6238] */
-    (xdc_Char)0x70,  /* [6239] */
-    (xdc_Char)0x68,  /* [6240] */
-    (xdc_Char)0x6f,  /* [6241] */
-    (xdc_Char)0x72,  /* [6242] */
+    (xdc_Char)0x74,  /* [6174] */
+    (xdc_Char)0x69,  /* [6175] */
+    (xdc_Char)0x76,  /* [6176] */
+    (xdc_Char)0x61,  /* [6177] */
+    (xdc_Char)0x2e,  /* [6178] */
+    (xdc_Char)0x0,  /* [6179] */
+    (xdc_Char)0x63,  /* [6180] */
+    (xdc_Char)0x65,  /* [6181] */
+    (xdc_Char)0x2e,  /* [6182] */
+    (xdc_Char)0x0,  /* [6183] */
+    (xdc_Char)0x42,  /* [6184] */
+    (xdc_Char)0x6f,  /* [6185] */
+    (xdc_Char)0x6f,  /* [6186] */
+    (xdc_Char)0x74,  /* [6187] */
+    (xdc_Char)0x0,  /* [6188] */
+    (xdc_Char)0x73,  /* [6189] */
+    (xdc_Char)0x79,  /* [6190] */
+    (xdc_Char)0x73,  /* [6191] */
+    (xdc_Char)0x62,  /* [6192] */
+    (xdc_Char)0x69,  /* [6193] */
+    (xdc_Char)0x6f,  /* [6194] */
+    (xdc_Char)0x73,  /* [6195] */
+    (xdc_Char)0x2e,  /* [6196] */
+    (xdc_Char)0x0,  /* [6197] */
+    (xdc_Char)0x6b,  /* [6198] */
+    (xdc_Char)0x6e,  /* [6199] */
+    (xdc_Char)0x6c,  /* [6200] */
+    (xdc_Char)0x2e,  /* [6201] */
+    (xdc_Char)0x0,  /* [6202] */
+    (xdc_Char)0x43,  /* [6203] */
+    (xdc_Char)0x6c,  /* [6204] */
+    (xdc_Char)0x6f,  /* [6205] */
+    (xdc_Char)0x63,  /* [6206] */
+    (xdc_Char)0x6b,  /* [6207] */
+    (xdc_Char)0x0,  /* [6208] */
+    (xdc_Char)0x49,  /* [6209] */
+    (xdc_Char)0x64,  /* [6210] */
+    (xdc_Char)0x6c,  /* [6211] */
+    (xdc_Char)0x65,  /* [6212] */
+    (xdc_Char)0x0,  /* [6213] */
+    (xdc_Char)0x49,  /* [6214] */
+    (xdc_Char)0x6e,  /* [6215] */
+    (xdc_Char)0x74,  /* [6216] */
+    (xdc_Char)0x72,  /* [6217] */
+    (xdc_Char)0x69,  /* [6218] */
+    (xdc_Char)0x6e,  /* [6219] */
+    (xdc_Char)0x73,  /* [6220] */
+    (xdc_Char)0x69,  /* [6221] */
+    (xdc_Char)0x63,  /* [6222] */
+    (xdc_Char)0x73,  /* [6223] */
+    (xdc_Char)0x0,  /* [6224] */
+    (xdc_Char)0x45,  /* [6225] */
+    (xdc_Char)0x76,  /* [6226] */
+    (xdc_Char)0x65,  /* [6227] */
+    (xdc_Char)0x6e,  /* [6228] */
+    (xdc_Char)0x74,  /* [6229] */
+    (xdc_Char)0x0,  /* [6230] */
+    (xdc_Char)0x4d,  /* [6231] */
+    (xdc_Char)0x61,  /* [6232] */
+    (xdc_Char)0x69,  /* [6233] */
+    (xdc_Char)0x6c,  /* [6234] */
+    (xdc_Char)0x62,  /* [6235] */
+    (xdc_Char)0x6f,  /* [6236] */
+    (xdc_Char)0x78,  /* [6237] */
+    (xdc_Char)0x0,  /* [6238] */
+    (xdc_Char)0x51,  /* [6239] */
+    (xdc_Char)0x75,  /* [6240] */
+    (xdc_Char)0x65,  /* [6241] */
+    (xdc_Char)0x75,  /* [6242] */
     (xdc_Char)0x65,  /* [6243] */
     (xdc_Char)0x0,  /* [6244] */
     (xdc_Char)0x53,  /* [6245] */
-    (xdc_Char)0x77,  /* [6246] */
-    (xdc_Char)0x69,  /* [6247] */
-    (xdc_Char)0x0,  /* [6248] */
-    (xdc_Char)0x54,  /* [6249] */
-    (xdc_Char)0x61,  /* [6250] */
-    (xdc_Char)0x73,  /* [6251] */
-    (xdc_Char)0x6b,  /* [6252] */
-    (xdc_Char)0x0,  /* [6253] */
-    (xdc_Char)0x68,  /* [6254] */
-    (xdc_Char)0x61,  /* [6255] */
-    (xdc_Char)0x6c,  /* [6256] */
-    (xdc_Char)0x2e,  /* [6257] */
+    (xdc_Char)0x65,  /* [6246] */
+    (xdc_Char)0x6d,  /* [6247] */
+    (xdc_Char)0x61,  /* [6248] */
+    (xdc_Char)0x70,  /* [6249] */
+    (xdc_Char)0x68,  /* [6250] */
+    (xdc_Char)0x6f,  /* [6251] */
+    (xdc_Char)0x72,  /* [6252] */
+    (xdc_Char)0x65,  /* [6253] */
+    (xdc_Char)0x0,  /* [6254] */
+    (xdc_Char)0x53,  /* [6255] */
+    (xdc_Char)0x77,  /* [6256] */
+    (xdc_Char)0x69,  /* [6257] */
     (xdc_Char)0x0,  /* [6258] */
-    (xdc_Char)0x43,  /* [6259] */
+    (xdc_Char)0x54,  /* [6259] */
     (xdc_Char)0x61,  /* [6260] */
-    (xdc_Char)0x63,  /* [6261] */
-    (xdc_Char)0x68,  /* [6262] */
-    (xdc_Char)0x65,  /* [6263] */
-    (xdc_Char)0x0,  /* [6264] */
-    (xdc_Char)0x43,  /* [6265] */
-    (xdc_Char)0x61,  /* [6266] */
-    (xdc_Char)0x63,  /* [6267] */
-    (xdc_Char)0x68,  /* [6268] */
-    (xdc_Char)0x65,  /* [6269] */
-    (xdc_Char)0x4e,  /* [6270] */
-    (xdc_Char)0x75,  /* [6271] */
-    (xdc_Char)0x6c,  /* [6272] */
-    (xdc_Char)0x6c,  /* [6273] */
+    (xdc_Char)0x73,  /* [6261] */
+    (xdc_Char)0x6b,  /* [6262] */
+    (xdc_Char)0x0,  /* [6263] */
+    (xdc_Char)0x68,  /* [6264] */
+    (xdc_Char)0x61,  /* [6265] */
+    (xdc_Char)0x6c,  /* [6266] */
+    (xdc_Char)0x2e,  /* [6267] */
+    (xdc_Char)0x0,  /* [6268] */
+    (xdc_Char)0x43,  /* [6269] */
+    (xdc_Char)0x61,  /* [6270] */
+    (xdc_Char)0x63,  /* [6271] */
+    (xdc_Char)0x68,  /* [6272] */
+    (xdc_Char)0x65,  /* [6273] */
     (xdc_Char)0x0,  /* [6274] */
-    (xdc_Char)0x48,  /* [6275] */
-    (xdc_Char)0x77,  /* [6276] */
-    (xdc_Char)0x69,  /* [6277] */
-    (xdc_Char)0x0,  /* [6278] */
-    (xdc_Char)0x53,  /* [6279] */
-    (xdc_Char)0x65,  /* [6280] */
-    (xdc_Char)0x63,  /* [6281] */
-    (xdc_Char)0x6f,  /* [6282] */
-    (xdc_Char)0x6e,  /* [6283] */
-    (xdc_Char)0x64,  /* [6284] */
-    (xdc_Char)0x73,  /* [6285] */
-    (xdc_Char)0x0,  /* [6286] */
-    (xdc_Char)0x54,  /* [6287] */
-    (xdc_Char)0x69,  /* [6288] */
-    (xdc_Char)0x6d,  /* [6289] */
+    (xdc_Char)0x43,  /* [6275] */
+    (xdc_Char)0x61,  /* [6276] */
+    (xdc_Char)0x63,  /* [6277] */
+    (xdc_Char)0x68,  /* [6278] */
+    (xdc_Char)0x65,  /* [6279] */
+    (xdc_Char)0x4e,  /* [6280] */
+    (xdc_Char)0x75,  /* [6281] */
+    (xdc_Char)0x6c,  /* [6282] */
+    (xdc_Char)0x6c,  /* [6283] */
+    (xdc_Char)0x0,  /* [6284] */
+    (xdc_Char)0x48,  /* [6285] */
+    (xdc_Char)0x77,  /* [6286] */
+    (xdc_Char)0x69,  /* [6287] */
+    (xdc_Char)0x0,  /* [6288] */
+    (xdc_Char)0x53,  /* [6289] */
     (xdc_Char)0x65,  /* [6290] */
-    (xdc_Char)0x72,  /* [6291] */
-    (xdc_Char)0x0,  /* [6292] */
-    (xdc_Char)0x42,  /* [6293] */
-    (xdc_Char)0x49,  /* [6294] */
-    (xdc_Char)0x4f,  /* [6295] */
-    (xdc_Char)0x53,  /* [6296] */
-    (xdc_Char)0x0,  /* [6297] */
-    (xdc_Char)0x66,  /* [6298] */
-    (xdc_Char)0x61,  /* [6299] */
-    (xdc_Char)0x6d,  /* [6300] */
-    (xdc_Char)0x69,  /* [6301] */
-    (xdc_Char)0x6c,  /* [6302] */
-    (xdc_Char)0x79,  /* [6303] */
-    (xdc_Char)0x2e,  /* [6304] */
-    (xdc_Char)0x0,  /* [6305] */
-    (xdc_Char)0x6d,  /* [6306] */
-    (xdc_Char)0x33,  /* [6307] */
-    (xdc_Char)0x2e,  /* [6308] */
-    (xdc_Char)0x0,  /* [6309] */
-    (xdc_Char)0x49,  /* [6310] */
-    (xdc_Char)0x6e,  /* [6311] */
-    (xdc_Char)0x74,  /* [6312] */
-    (xdc_Char)0x72,  /* [6313] */
-    (xdc_Char)0x69,  /* [6314] */
-    (xdc_Char)0x6e,  /* [6315] */
-    (xdc_Char)0x73,  /* [6316] */
-    (xdc_Char)0x69,  /* [6317] */
-    (xdc_Char)0x63,  /* [6318] */
-    (xdc_Char)0x73,  /* [6319] */
-    (xdc_Char)0x53,  /* [6320] */
-    (xdc_Char)0x75,  /* [6321] */
-    (xdc_Char)0x70,  /* [6322] */
-    (xdc_Char)0x70,  /* [6323] */
-    (xdc_Char)0x6f,  /* [6324] */
-    (xdc_Char)0x72,  /* [6325] */
-    (xdc_Char)0x74,  /* [6326] */
-    (xdc_Char)0x0,  /* [6327] */
-    (xdc_Char)0x54,  /* [6328] */
-    (xdc_Char)0x61,  /* [6329] */
-    (xdc_Char)0x73,  /* [6330] */
-    (xdc_Char)0x6b,  /* [6331] */
-    (xdc_Char)0x53,  /* [6332] */
-    (xdc_Char)0x75,  /* [6333] */
-    (xdc_Char)0x70,  /* [6334] */
-    (xdc_Char)0x70,  /* [6335] */
-    (xdc_Char)0x6f,  /* [6336] */
-    (xdc_Char)0x72,  /* [6337] */
-    (xdc_Char)0x74,  /* [6338] */
-    (xdc_Char)0x0,  /* [6339] */
-    (xdc_Char)0x6e,  /* [6340] */
-    (xdc_Char)0x64,  /* [6341] */
-    (xdc_Char)0x6b,  /* [6342] */
-    (xdc_Char)0x2e,  /* [6343] */
-    (xdc_Char)0x0,  /* [6344] */
-    (xdc_Char)0x72,  /* [6345] */
+    (xdc_Char)0x63,  /* [6291] */
+    (xdc_Char)0x6f,  /* [6292] */
+    (xdc_Char)0x6e,  /* [6293] */
+    (xdc_Char)0x64,  /* [6294] */
+    (xdc_Char)0x73,  /* [6295] */
+    (xdc_Char)0x0,  /* [6296] */
+    (xdc_Char)0x54,  /* [6297] */
+    (xdc_Char)0x69,  /* [6298] */
+    (xdc_Char)0x6d,  /* [6299] */
+    (xdc_Char)0x65,  /* [6300] */
+    (xdc_Char)0x72,  /* [6301] */
+    (xdc_Char)0x0,  /* [6302] */
+    (xdc_Char)0x42,  /* [6303] */
+    (xdc_Char)0x49,  /* [6304] */
+    (xdc_Char)0x4f,  /* [6305] */
+    (xdc_Char)0x53,  /* [6306] */
+    (xdc_Char)0x0,  /* [6307] */
+    (xdc_Char)0x66,  /* [6308] */
+    (xdc_Char)0x61,  /* [6309] */
+    (xdc_Char)0x6d,  /* [6310] */
+    (xdc_Char)0x69,  /* [6311] */
+    (xdc_Char)0x6c,  /* [6312] */
+    (xdc_Char)0x79,  /* [6313] */
+    (xdc_Char)0x2e,  /* [6314] */
+    (xdc_Char)0x0,  /* [6315] */
+    (xdc_Char)0x6d,  /* [6316] */
+    (xdc_Char)0x33,  /* [6317] */
+    (xdc_Char)0x2e,  /* [6318] */
+    (xdc_Char)0x0,  /* [6319] */
+    (xdc_Char)0x49,  /* [6320] */
+    (xdc_Char)0x6e,  /* [6321] */
+    (xdc_Char)0x74,  /* [6322] */
+    (xdc_Char)0x72,  /* [6323] */
+    (xdc_Char)0x69,  /* [6324] */
+    (xdc_Char)0x6e,  /* [6325] */
+    (xdc_Char)0x73,  /* [6326] */
+    (xdc_Char)0x69,  /* [6327] */
+    (xdc_Char)0x63,  /* [6328] */
+    (xdc_Char)0x73,  /* [6329] */
+    (xdc_Char)0x53,  /* [6330] */
+    (xdc_Char)0x75,  /* [6331] */
+    (xdc_Char)0x70,  /* [6332] */
+    (xdc_Char)0x70,  /* [6333] */
+    (xdc_Char)0x6f,  /* [6334] */
+    (xdc_Char)0x72,  /* [6335] */
+    (xdc_Char)0x74,  /* [6336] */
+    (xdc_Char)0x0,  /* [6337] */
+    (xdc_Char)0x54,  /* [6338] */
+    (xdc_Char)0x61,  /* [6339] */
+    (xdc_Char)0x73,  /* [6340] */
+    (xdc_Char)0x6b,  /* [6341] */
+    (xdc_Char)0x53,  /* [6342] */
+    (xdc_Char)0x75,  /* [6343] */
+    (xdc_Char)0x70,  /* [6344] */
+    (xdc_Char)0x70,  /* [6345] */
     (xdc_Char)0x6f,  /* [6346] */
-    (xdc_Char)0x76,  /* [6347] */
-    (xdc_Char)0x2e,  /* [6348] */
+    (xdc_Char)0x72,  /* [6347] */
+    (xdc_Char)0x74,  /* [6348] */
     (xdc_Char)0x0,  /* [6349] */
-    (xdc_Char)0x4e,  /* [6350] */
+    (xdc_Char)0x6e,  /* [6350] */
     (xdc_Char)0x64,  /* [6351] */
     (xdc_Char)0x6b,  /* [6352] */
-    (xdc_Char)0x0,  /* [6353] */
-    (xdc_Char)0x67,  /* [6354] */
-    (xdc_Char)0x61,  /* [6355] */
-    (xdc_Char)0x74,  /* [6356] */
-    (xdc_Char)0x65,  /* [6357] */
-    (xdc_Char)0x73,  /* [6358] */
-    (xdc_Char)0x2e,  /* [6359] */
-    (xdc_Char)0x0,  /* [6360] */
-    (xdc_Char)0x47,  /* [6361] */
-    (xdc_Char)0x61,  /* [6362] */
-    (xdc_Char)0x74,  /* [6363] */
-    (xdc_Char)0x65,  /* [6364] */
-    (xdc_Char)0x48,  /* [6365] */
-    (xdc_Char)0x77,  /* [6366] */
-    (xdc_Char)0x69,  /* [6367] */
-    (xdc_Char)0x0,  /* [6368] */
-    (xdc_Char)0x47,  /* [6369] */
-    (xdc_Char)0x61,  /* [6370] */
-    (xdc_Char)0x74,  /* [6371] */
-    (xdc_Char)0x65,  /* [6372] */
-    (xdc_Char)0x4d,  /* [6373] */
-    (xdc_Char)0x75,  /* [6374] */
-    (xdc_Char)0x74,  /* [6375] */
-    (xdc_Char)0x65,  /* [6376] */
-    (xdc_Char)0x78,  /* [6377] */
+    (xdc_Char)0x2e,  /* [6353] */
+    (xdc_Char)0x0,  /* [6354] */
+    (xdc_Char)0x72,  /* [6355] */
+    (xdc_Char)0x6f,  /* [6356] */
+    (xdc_Char)0x76,  /* [6357] */
+    (xdc_Char)0x2e,  /* [6358] */
+    (xdc_Char)0x0,  /* [6359] */
+    (xdc_Char)0x4e,  /* [6360] */
+    (xdc_Char)0x64,  /* [6361] */
+    (xdc_Char)0x6b,  /* [6362] */
+    (xdc_Char)0x0,  /* [6363] */
+    (xdc_Char)0x67,  /* [6364] */
+    (xdc_Char)0x61,  /* [6365] */
+    (xdc_Char)0x74,  /* [6366] */
+    (xdc_Char)0x65,  /* [6367] */
+    (xdc_Char)0x73,  /* [6368] */
+    (xdc_Char)0x2e,  /* [6369] */
+    (xdc_Char)0x0,  /* [6370] */
+    (xdc_Char)0x47,  /* [6371] */
+    (xdc_Char)0x61,  /* [6372] */
+    (xdc_Char)0x74,  /* [6373] */
+    (xdc_Char)0x65,  /* [6374] */
+    (xdc_Char)0x48,  /* [6375] */
+    (xdc_Char)0x77,  /* [6376] */
+    (xdc_Char)0x69,  /* [6377] */
     (xdc_Char)0x0,  /* [6378] */
-    (xdc_Char)0x68,  /* [6379] */
-    (xdc_Char)0x65,  /* [6380] */
-    (xdc_Char)0x61,  /* [6381] */
-    (xdc_Char)0x70,  /* [6382] */
-    (xdc_Char)0x73,  /* [6383] */
-    (xdc_Char)0x2e,  /* [6384] */
-    (xdc_Char)0x0,  /* [6385] */
-    (xdc_Char)0x48,  /* [6386] */
-    (xdc_Char)0x65,  /* [6387] */
-    (xdc_Char)0x61,  /* [6388] */
-    (xdc_Char)0x70,  /* [6389] */
-    (xdc_Char)0x4d,  /* [6390] */
-    (xdc_Char)0x65,  /* [6391] */
-    (xdc_Char)0x6d,  /* [6392] */
-    (xdc_Char)0x0,  /* [6393] */
-    (xdc_Char)0x6c,  /* [6394] */
-    (xdc_Char)0x6d,  /* [6395] */
-    (xdc_Char)0x34,  /* [6396] */
-    (xdc_Char)0x2e,  /* [6397] */
-    (xdc_Char)0x0,  /* [6398] */
-    (xdc_Char)0x6d,  /* [6399] */
-    (xdc_Char)0x61,  /* [6400] */
-    (xdc_Char)0x69,  /* [6401] */
-    (xdc_Char)0x6c,  /* [6402] */
-    (xdc_Char)0x62,  /* [6403] */
-    (xdc_Char)0x6f,  /* [6404] */
-    (xdc_Char)0x78,  /* [6405] */
-    (xdc_Char)0x30,  /* [6406] */
-    (xdc_Char)0x0,  /* [6407] */
-    (xdc_Char)0x73,  /* [6408] */
-    (xdc_Char)0x65,  /* [6409] */
-    (xdc_Char)0x6d,  /* [6410] */
-    (xdc_Char)0x61,  /* [6411] */
-    (xdc_Char)0x70,  /* [6412] */
-    (xdc_Char)0x68,  /* [6413] */
-    (xdc_Char)0x6f,  /* [6414] */
-    (xdc_Char)0x72,  /* [6415] */
-    (xdc_Char)0x65,  /* [6416] */
-    (xdc_Char)0x30,  /* [6417] */
-    (xdc_Char)0x0,  /* [6418] */
-    (xdc_Char)0x73,  /* [6419] */
-    (xdc_Char)0x77,  /* [6420] */
-    (xdc_Char)0x69,  /* [6421] */
-    (xdc_Char)0x30,  /* [6422] */
-    (xdc_Char)0x0,  /* [6423] */
-    (xdc_Char)0x4e,  /* [6424] */
-    (xdc_Char)0x44,  /* [6425] */
-    (xdc_Char)0x4b,  /* [6426] */
-    (xdc_Char)0x20,  /* [6427] */
-    (xdc_Char)0x53,  /* [6428] */
-    (xdc_Char)0x74,  /* [6429] */
-    (xdc_Char)0x61,  /* [6430] */
-    (xdc_Char)0x63,  /* [6431] */
-    (xdc_Char)0x6b,  /* [6432] */
-    (xdc_Char)0x20,  /* [6433] */
-    (xdc_Char)0x54,  /* [6434] */
-    (xdc_Char)0x68,  /* [6435] */
-    (xdc_Char)0x72,  /* [6436] */
+    (xdc_Char)0x47,  /* [6379] */
+    (xdc_Char)0x61,  /* [6380] */
+    (xdc_Char)0x74,  /* [6381] */
+    (xdc_Char)0x65,  /* [6382] */
+    (xdc_Char)0x4d,  /* [6383] */
+    (xdc_Char)0x75,  /* [6384] */
+    (xdc_Char)0x74,  /* [6385] */
+    (xdc_Char)0x65,  /* [6386] */
+    (xdc_Char)0x78,  /* [6387] */
+    (xdc_Char)0x0,  /* [6388] */
+    (xdc_Char)0x68,  /* [6389] */
+    (xdc_Char)0x65,  /* [6390] */
+    (xdc_Char)0x61,  /* [6391] */
+    (xdc_Char)0x70,  /* [6392] */
+    (xdc_Char)0x73,  /* [6393] */
+    (xdc_Char)0x2e,  /* [6394] */
+    (xdc_Char)0x0,  /* [6395] */
+    (xdc_Char)0x48,  /* [6396] */
+    (xdc_Char)0x65,  /* [6397] */
+    (xdc_Char)0x61,  /* [6398] */
+    (xdc_Char)0x70,  /* [6399] */
+    (xdc_Char)0x4d,  /* [6400] */
+    (xdc_Char)0x65,  /* [6401] */
+    (xdc_Char)0x6d,  /* [6402] */
+    (xdc_Char)0x0,  /* [6403] */
+    (xdc_Char)0x6c,  /* [6404] */
+    (xdc_Char)0x6d,  /* [6405] */
+    (xdc_Char)0x34,  /* [6406] */
+    (xdc_Char)0x2e,  /* [6407] */
+    (xdc_Char)0x0,  /* [6408] */
+    (xdc_Char)0x54,  /* [6409] */
+    (xdc_Char)0x69,  /* [6410] */
+    (xdc_Char)0x6d,  /* [6411] */
+    (xdc_Char)0x65,  /* [6412] */
+    (xdc_Char)0x73,  /* [6413] */
+    (xdc_Char)0x74,  /* [6414] */
+    (xdc_Char)0x61,  /* [6415] */
+    (xdc_Char)0x6d,  /* [6416] */
+    (xdc_Char)0x70,  /* [6417] */
+    (xdc_Char)0x50,  /* [6418] */
+    (xdc_Char)0x72,  /* [6419] */
+    (xdc_Char)0x6f,  /* [6420] */
+    (xdc_Char)0x76,  /* [6421] */
+    (xdc_Char)0x69,  /* [6422] */
+    (xdc_Char)0x64,  /* [6423] */
+    (xdc_Char)0x65,  /* [6424] */
+    (xdc_Char)0x72,  /* [6425] */
+    (xdc_Char)0x0,  /* [6426] */
+    (xdc_Char)0x6d,  /* [6427] */
+    (xdc_Char)0x61,  /* [6428] */
+    (xdc_Char)0x69,  /* [6429] */
+    (xdc_Char)0x6c,  /* [6430] */
+    (xdc_Char)0x62,  /* [6431] */
+    (xdc_Char)0x6f,  /* [6432] */
+    (xdc_Char)0x78,  /* [6433] */
+    (xdc_Char)0x30,  /* [6434] */
+    (xdc_Char)0x0,  /* [6435] */
+    (xdc_Char)0x73,  /* [6436] */
     (xdc_Char)0x65,  /* [6437] */
-    (xdc_Char)0x61,  /* [6438] */
-    (xdc_Char)0x64,  /* [6439] */
-    (xdc_Char)0x0,  /* [6440] */
-    (xdc_Char)0x74,  /* [6441] */
-    (xdc_Char)0x69,  /* [6442] */
-    (xdc_Char)0x2e,  /* [6443] */
-    (xdc_Char)0x73,  /* [6444] */
-    (xdc_Char)0x79,  /* [6445] */
-    (xdc_Char)0x73,  /* [6446] */
-    (xdc_Char)0x62,  /* [6447] */
-    (xdc_Char)0x69,  /* [6448] */
-    (xdc_Char)0x6f,  /* [6449] */
-    (xdc_Char)0x73,  /* [6450] */
-    (xdc_Char)0x2e,  /* [6451] */
-    (xdc_Char)0x6b,  /* [6452] */
-    (xdc_Char)0x6e,  /* [6453] */
-    (xdc_Char)0x6c,  /* [6454] */
-    (xdc_Char)0x2e,  /* [6455] */
-    (xdc_Char)0x54,  /* [6456] */
-    (xdc_Char)0x61,  /* [6457] */
-    (xdc_Char)0x73,  /* [6458] */
-    (xdc_Char)0x6b,  /* [6459] */
-    (xdc_Char)0x2e,  /* [6460] */
-    (xdc_Char)0x49,  /* [6461] */
-    (xdc_Char)0x64,  /* [6462] */
-    (xdc_Char)0x6c,  /* [6463] */
-    (xdc_Char)0x65,  /* [6464] */
-    (xdc_Char)0x54,  /* [6465] */
+    (xdc_Char)0x6d,  /* [6438] */
+    (xdc_Char)0x61,  /* [6439] */
+    (xdc_Char)0x70,  /* [6440] */
+    (xdc_Char)0x68,  /* [6441] */
+    (xdc_Char)0x6f,  /* [6442] */
+    (xdc_Char)0x72,  /* [6443] */
+    (xdc_Char)0x65,  /* [6444] */
+    (xdc_Char)0x30,  /* [6445] */
+    (xdc_Char)0x0,  /* [6446] */
+    (xdc_Char)0x73,  /* [6447] */
+    (xdc_Char)0x77,  /* [6448] */
+    (xdc_Char)0x69,  /* [6449] */
+    (xdc_Char)0x30,  /* [6450] */
+    (xdc_Char)0x0,  /* [6451] */
+    (xdc_Char)0x4e,  /* [6452] */
+    (xdc_Char)0x44,  /* [6453] */
+    (xdc_Char)0x4b,  /* [6454] */
+    (xdc_Char)0x20,  /* [6455] */
+    (xdc_Char)0x53,  /* [6456] */
+    (xdc_Char)0x74,  /* [6457] */
+    (xdc_Char)0x61,  /* [6458] */
+    (xdc_Char)0x63,  /* [6459] */
+    (xdc_Char)0x6b,  /* [6460] */
+    (xdc_Char)0x20,  /* [6461] */
+    (xdc_Char)0x54,  /* [6462] */
+    (xdc_Char)0x68,  /* [6463] */
+    (xdc_Char)0x72,  /* [6464] */
+    (xdc_Char)0x65,  /* [6465] */
     (xdc_Char)0x61,  /* [6466] */
-    (xdc_Char)0x73,  /* [6467] */
-    (xdc_Char)0x6b,  /* [6468] */
-    (xdc_Char)0x0,  /* [6469] */
-    (xdc_Char)0x74,  /* [6470] */
-    (xdc_Char)0x69,  /* [6471] */
-    (xdc_Char)0x6d,  /* [6472] */
-    (xdc_Char)0x65,  /* [6473] */
-    (xdc_Char)0x72,  /* [6474] */
-    (xdc_Char)0x30,  /* [6475] */
-    (xdc_Char)0x0,  /* [6476] */
+    (xdc_Char)0x64,  /* [6467] */
+    (xdc_Char)0x0,  /* [6468] */
+    (xdc_Char)0x74,  /* [6469] */
+    (xdc_Char)0x69,  /* [6470] */
+    (xdc_Char)0x2e,  /* [6471] */
+    (xdc_Char)0x73,  /* [6472] */
+    (xdc_Char)0x79,  /* [6473] */
+    (xdc_Char)0x73,  /* [6474] */
+    (xdc_Char)0x62,  /* [6475] */
+    (xdc_Char)0x69,  /* [6476] */
+    (xdc_Char)0x6f,  /* [6477] */
+    (xdc_Char)0x73,  /* [6478] */
+    (xdc_Char)0x2e,  /* [6479] */
+    (xdc_Char)0x6b,  /* [6480] */
+    (xdc_Char)0x6e,  /* [6481] */
+    (xdc_Char)0x6c,  /* [6482] */
+    (xdc_Char)0x2e,  /* [6483] */
+    (xdc_Char)0x54,  /* [6484] */
+    (xdc_Char)0x61,  /* [6485] */
+    (xdc_Char)0x73,  /* [6486] */
+    (xdc_Char)0x6b,  /* [6487] */
+    (xdc_Char)0x2e,  /* [6488] */
+    (xdc_Char)0x49,  /* [6489] */
+    (xdc_Char)0x64,  /* [6490] */
+    (xdc_Char)0x6c,  /* [6491] */
+    (xdc_Char)0x65,  /* [6492] */
+    (xdc_Char)0x54,  /* [6493] */
+    (xdc_Char)0x61,  /* [6494] */
+    (xdc_Char)0x73,  /* [6495] */
+    (xdc_Char)0x6b,  /* [6496] */
+    (xdc_Char)0x0,  /* [6497] */
+    (xdc_Char)0x74,  /* [6498] */
+    (xdc_Char)0x69,  /* [6499] */
+    (xdc_Char)0x6d,  /* [6500] */
+    (xdc_Char)0x65,  /* [6501] */
+    (xdc_Char)0x72,  /* [6502] */
+    (xdc_Char)0x30,  /* [6503] */
+    (xdc_Char)0x0,  /* [6504] */
 };
 
 /* --> xdc_runtime_Text_nodeTab__A */
 #pragma DATA_SECTION(xdc_runtime_Text_nodeTab__A, ".const:xdc_runtime_Text_nodeTab__A");
-const __T1_xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__A[57] = {
+const __T1_xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__A[59] = {
     {
         (xdc_Bits16)0x0,  /* left */
         (xdc_Bits16)0x0,  /* right */
@@ -14778,16 +15017,16 @@ const __T1_xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__A[57] = {
         (xdc_Bits16)0x17f3,  /* right */
     },  /* [15] */
     {
-        (xdc_Bits16)0x17f8,  /* left */
-        (xdc_Bits16)0x17fc,  /* right */
+        (xdc_Bits16)0x8001,  /* left */
+        (xdc_Bits16)0x17f8,  /* right */
     },  /* [16] */
     {
-        (xdc_Bits16)0x8010,  /* left */
-        (xdc_Bits16)0x1805,  /* right */
+        (xdc_Bits16)0x1802,  /* left */
+        (xdc_Bits16)0x1806,  /* right */
     },  /* [17] */
     {
         (xdc_Bits16)0x8011,  /* left */
-        (xdc_Bits16)0x180a,  /* right */
+        (xdc_Bits16)0x180f,  /* right */
     },  /* [18] */
     {
         (xdc_Bits16)0x8012,  /* left */
@@ -14795,152 +15034,160 @@ const __T1_xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__A[57] = {
     },  /* [19] */
     {
         (xdc_Bits16)0x8013,  /* left */
-        (xdc_Bits16)0x181a,  /* right */
+        (xdc_Bits16)0x181e,  /* right */
     },  /* [20] */
     {
         (xdc_Bits16)0x8014,  /* left */
-        (xdc_Bits16)0x181e,  /* right */
+        (xdc_Bits16)0x1824,  /* right */
     },  /* [21] */
     {
-        (xdc_Bits16)0x17f8,  /* left */
-        (xdc_Bits16)0x1823,  /* right */
+        (xdc_Bits16)0x8015,  /* left */
+        (xdc_Bits16)0x1828,  /* right */
     },  /* [22] */
     {
-        (xdc_Bits16)0x8016,  /* left */
-        (xdc_Bits16)0x182c,  /* right */
+        (xdc_Bits16)0x1802,  /* left */
+        (xdc_Bits16)0x182d,  /* right */
     },  /* [23] */
     {
         (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x1831,  /* right */
+        (xdc_Bits16)0x1836,  /* right */
     },  /* [24] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x1837,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x183b,  /* right */
     },  /* [25] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x183c,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x1841,  /* right */
     },  /* [26] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x1847,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x1846,  /* right */
     },  /* [27] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x184d,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x1851,  /* right */
     },  /* [28] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x1855,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x1857,  /* right */
     },  /* [29] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x185b,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x185f,  /* right */
     },  /* [30] */
     {
-        (xdc_Bits16)0x8017,  /* left */
+        (xdc_Bits16)0x8018,  /* left */
         (xdc_Bits16)0x1865,  /* right */
     },  /* [31] */
     {
-        (xdc_Bits16)0x8017,  /* left */
-        (xdc_Bits16)0x1869,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x186f,  /* right */
     },  /* [32] */
     {
-        (xdc_Bits16)0x8016,  /* left */
-        (xdc_Bits16)0x186e,  /* right */
+        (xdc_Bits16)0x8018,  /* left */
+        (xdc_Bits16)0x1873,  /* right */
     },  /* [33] */
     {
-        (xdc_Bits16)0x8021,  /* left */
-        (xdc_Bits16)0x1873,  /* right */
+        (xdc_Bits16)0x8017,  /* left */
+        (xdc_Bits16)0x1878,  /* right */
     },  /* [34] */
     {
-        (xdc_Bits16)0x8021,  /* left */
-        (xdc_Bits16)0x1879,  /* right */
+        (xdc_Bits16)0x8022,  /* left */
+        (xdc_Bits16)0x187d,  /* right */
     },  /* [35] */
     {
-        (xdc_Bits16)0x8021,  /* left */
+        (xdc_Bits16)0x8022,  /* left */
         (xdc_Bits16)0x1883,  /* right */
     },  /* [36] */
     {
-        (xdc_Bits16)0x8021,  /* left */
-        (xdc_Bits16)0x1887,  /* right */
+        (xdc_Bits16)0x8022,  /* left */
+        (xdc_Bits16)0x188d,  /* right */
     },  /* [37] */
     {
-        (xdc_Bits16)0x8021,  /* left */
-        (xdc_Bits16)0x188f,  /* right */
+        (xdc_Bits16)0x8022,  /* left */
+        (xdc_Bits16)0x1891,  /* right */
     },  /* [38] */
     {
-        (xdc_Bits16)0x8016,  /* left */
-        (xdc_Bits16)0x1895,  /* right */
+        (xdc_Bits16)0x8022,  /* left */
+        (xdc_Bits16)0x1899,  /* right */
     },  /* [39] */
     {
-        (xdc_Bits16)0x8016,  /* left */
-        (xdc_Bits16)0x189a,  /* right */
+        (xdc_Bits16)0x8017,  /* left */
+        (xdc_Bits16)0x189f,  /* right */
     },  /* [40] */
     {
-        (xdc_Bits16)0x8028,  /* left */
-        (xdc_Bits16)0x1805,  /* right */
+        (xdc_Bits16)0x8017,  /* left */
+        (xdc_Bits16)0x18a4,  /* right */
     },  /* [41] */
     {
         (xdc_Bits16)0x8029,  /* left */
-        (xdc_Bits16)0x18a2,  /* right */
+        (xdc_Bits16)0x180f,  /* right */
     },  /* [42] */
     {
         (xdc_Bits16)0x802a,  /* left */
-        (xdc_Bits16)0x1883,  /* right */
+        (xdc_Bits16)0x18ac,  /* right */
     },  /* [43] */
     {
-        (xdc_Bits16)0x802a,  /* left */
-        (xdc_Bits16)0x18a6,  /* right */
+        (xdc_Bits16)0x802b,  /* left */
+        (xdc_Bits16)0x188d,  /* right */
     },  /* [44] */
     {
-        (xdc_Bits16)0x802a,  /* left */
-        (xdc_Bits16)0x18b8,  /* right */
+        (xdc_Bits16)0x802b,  /* left */
+        (xdc_Bits16)0x18b0,  /* right */
     },  /* [45] */
     {
-        (xdc_Bits16)0x17f8,  /* left */
-        (xdc_Bits16)0x18c4,  /* right */
+        (xdc_Bits16)0x802b,  /* left */
+        (xdc_Bits16)0x18c2,  /* right */
     },  /* [46] */
     {
-        (xdc_Bits16)0x802e,  /* left */
-        (xdc_Bits16)0x18c9,  /* right */
+        (xdc_Bits16)0x1802,  /* left */
+        (xdc_Bits16)0x18ce,  /* right */
     },  /* [47] */
     {
         (xdc_Bits16)0x802f,  /* left */
-        (xdc_Bits16)0x18ce,  /* right */
+        (xdc_Bits16)0x18d3,  /* right */
     },  /* [48] */
     {
-        (xdc_Bits16)0x8016,  /* left */
-        (xdc_Bits16)0x18d2,  /* right */
+        (xdc_Bits16)0x8030,  /* left */
+        (xdc_Bits16)0x18d8,  /* right */
     },  /* [49] */
     {
-        (xdc_Bits16)0x8031,  /* left */
-        (xdc_Bits16)0x18d9,  /* right */
+        (xdc_Bits16)0x8017,  /* left */
+        (xdc_Bits16)0x18dc,  /* right */
     },  /* [50] */
     {
-        (xdc_Bits16)0x8031,  /* left */
-        (xdc_Bits16)0x18e1,  /* right */
+        (xdc_Bits16)0x8032,  /* left */
+        (xdc_Bits16)0x18e3,  /* right */
     },  /* [51] */
     {
-        (xdc_Bits16)0x8016,  /* left */
+        (xdc_Bits16)0x8032,  /* left */
         (xdc_Bits16)0x18eb,  /* right */
     },  /* [52] */
     {
-        (xdc_Bits16)0x8034,  /* left */
-        (xdc_Bits16)0x18f2,  /* right */
+        (xdc_Bits16)0x8017,  /* left */
+        (xdc_Bits16)0x18f5,  /* right */
     },  /* [53] */
     {
-        (xdc_Bits16)0x8029,  /* left */
-        (xdc_Bits16)0x18fa,  /* right */
+        (xdc_Bits16)0x8035,  /* left */
+        (xdc_Bits16)0x18fc,  /* right */
     },  /* [54] */
     {
-        (xdc_Bits16)0x8036,  /* left */
-        (xdc_Bits16)0x1887,  /* right */
+        (xdc_Bits16)0x802a,  /* left */
+        (xdc_Bits16)0x1904,  /* right */
     },  /* [55] */
     {
-        (xdc_Bits16)0x8036,  /* left */
-        (xdc_Bits16)0x188f,  /* right */
+        (xdc_Bits16)0x8037,  /* left */
+        (xdc_Bits16)0x1891,  /* right */
     },  /* [56] */
+    {
+        (xdc_Bits16)0x8037,  /* left */
+        (xdc_Bits16)0x1909,  /* right */
+    },  /* [57] */
+    {
+        (xdc_Bits16)0x8037,  /* left */
+        (xdc_Bits16)0x1899,  /* right */
+    },  /* [58] */
 };
 
 /* Module__diagsEnabled__C */
@@ -15041,11 +15288,11 @@ __FAR__ const CT__xdc_runtime_Text_nodeTab xdc_runtime_Text_nodeTab__C = ((CT__x
 
 /* charCnt__C */
 #pragma DATA_SECTION(xdc_runtime_Text_charCnt__C, ".const:xdc_runtime_Text_charCnt__C");
-__FAR__ const CT__xdc_runtime_Text_charCnt xdc_runtime_Text_charCnt__C = (xdc_Int16)0x194d;
+__FAR__ const CT__xdc_runtime_Text_charCnt xdc_runtime_Text_charCnt__C = (xdc_Int16)0x1969;
 
 /* nodeCnt__C */
 #pragma DATA_SECTION(xdc_runtime_Text_nodeCnt__C, ".const:xdc_runtime_Text_nodeCnt__C");
-__FAR__ const CT__xdc_runtime_Text_nodeCnt xdc_runtime_Text_nodeCnt__C = (xdc_Int16)0x39;
+__FAR__ const CT__xdc_runtime_Text_nodeCnt xdc_runtime_Text_nodeCnt__C = (xdc_Int16)0x3b;
 
 /* unnamedModsLastId__C */
 #pragma DATA_SECTION(xdc_runtime_Text_unnamedModsLastId__C, ".const:xdc_runtime_Text_unnamedModsLastId__C");
@@ -15062,6 +15309,88 @@ __FAR__ const CT__xdc_runtime_Text_visitRopeFxn xdc_runtime_Text_visitRopeFxn__C
 /* visitRopeFxn2__C */
 #pragma DATA_SECTION(xdc_runtime_Text_visitRopeFxn2__C, ".const:xdc_runtime_Text_visitRopeFxn2__C");
 __FAR__ const CT__xdc_runtime_Text_visitRopeFxn2 xdc_runtime_Text_visitRopeFxn2__C = ((CT__xdc_runtime_Text_visitRopeFxn2)((xdc_Fxn)xdc_runtime_Text_visitRope2__I));
+
+
+/*
+ * ======== xdc.runtime.Timestamp INITIALIZERS ========
+ */
+
+/* Module__diagsEnabled__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__diagsEnabled__C, ".const:xdc_runtime_Timestamp_Module__diagsEnabled__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__diagsEnabled xdc_runtime_Timestamp_Module__diagsEnabled__C = (xdc_Bits32)0x10;
+
+/* Module__diagsIncluded__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__diagsIncluded__C, ".const:xdc_runtime_Timestamp_Module__diagsIncluded__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__diagsIncluded xdc_runtime_Timestamp_Module__diagsIncluded__C = (xdc_Bits32)0x10;
+
+/* Module__diagsMask__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__diagsMask__C, ".const:xdc_runtime_Timestamp_Module__diagsMask__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__diagsMask xdc_runtime_Timestamp_Module__diagsMask__C = ((CT__xdc_runtime_Timestamp_Module__diagsMask)0);
+
+/* Module__gateObj__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__gateObj__C, ".const:xdc_runtime_Timestamp_Module__gateObj__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__gateObj xdc_runtime_Timestamp_Module__gateObj__C = ((CT__xdc_runtime_Timestamp_Module__gateObj)0);
+
+/* Module__gatePrms__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__gatePrms__C, ".const:xdc_runtime_Timestamp_Module__gatePrms__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__gatePrms xdc_runtime_Timestamp_Module__gatePrms__C = ((CT__xdc_runtime_Timestamp_Module__gatePrms)0);
+
+/* Module__id__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__id__C, ".const:xdc_runtime_Timestamp_Module__id__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__id xdc_runtime_Timestamp_Module__id__C = (xdc_Bits16)0x8010;
+
+/* Module__loggerDefined__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerDefined__C, ".const:xdc_runtime_Timestamp_Module__loggerDefined__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerDefined xdc_runtime_Timestamp_Module__loggerDefined__C = 0;
+
+/* Module__loggerObj__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerObj__C, ".const:xdc_runtime_Timestamp_Module__loggerObj__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerObj xdc_runtime_Timestamp_Module__loggerObj__C = ((CT__xdc_runtime_Timestamp_Module__loggerObj)0);
+
+/* Module__loggerFxn0__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerFxn0__C, ".const:xdc_runtime_Timestamp_Module__loggerFxn0__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerFxn0 xdc_runtime_Timestamp_Module__loggerFxn0__C = ((CT__xdc_runtime_Timestamp_Module__loggerFxn0)0);
+
+/* Module__loggerFxn1__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerFxn1__C, ".const:xdc_runtime_Timestamp_Module__loggerFxn1__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerFxn1 xdc_runtime_Timestamp_Module__loggerFxn1__C = ((CT__xdc_runtime_Timestamp_Module__loggerFxn1)0);
+
+/* Module__loggerFxn2__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerFxn2__C, ".const:xdc_runtime_Timestamp_Module__loggerFxn2__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerFxn2 xdc_runtime_Timestamp_Module__loggerFxn2__C = ((CT__xdc_runtime_Timestamp_Module__loggerFxn2)0);
+
+/* Module__loggerFxn4__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerFxn4__C, ".const:xdc_runtime_Timestamp_Module__loggerFxn4__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerFxn4 xdc_runtime_Timestamp_Module__loggerFxn4__C = ((CT__xdc_runtime_Timestamp_Module__loggerFxn4)0);
+
+/* Module__loggerFxn8__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__loggerFxn8__C, ".const:xdc_runtime_Timestamp_Module__loggerFxn8__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__loggerFxn8 xdc_runtime_Timestamp_Module__loggerFxn8__C = ((CT__xdc_runtime_Timestamp_Module__loggerFxn8)0);
+
+/* Module__startupDoneFxn__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Module__startupDoneFxn__C, ".const:xdc_runtime_Timestamp_Module__startupDoneFxn__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Module__startupDoneFxn xdc_runtime_Timestamp_Module__startupDoneFxn__C = ((CT__xdc_runtime_Timestamp_Module__startupDoneFxn)0);
+
+/* Object__count__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Object__count__C, ".const:xdc_runtime_Timestamp_Object__count__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Object__count xdc_runtime_Timestamp_Object__count__C = 0;
+
+/* Object__heap__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Object__heap__C, ".const:xdc_runtime_Timestamp_Object__heap__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Object__heap xdc_runtime_Timestamp_Object__heap__C = 0;
+
+/* Object__sizeof__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Object__sizeof__C, ".const:xdc_runtime_Timestamp_Object__sizeof__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Object__sizeof xdc_runtime_Timestamp_Object__sizeof__C = 0;
+
+/* Object__table__C */
+#pragma DATA_SECTION(xdc_runtime_Timestamp_Object__table__C, ".const:xdc_runtime_Timestamp_Object__table__C");
+__FAR__ const CT__xdc_runtime_Timestamp_Object__table xdc_runtime_Timestamp_Object__table__C = 0;
+
+
+/*
+ * ======== xdc.runtime.Timestamp_SupportProxy INITIALIZERS ========
+ */
 
 
 /*
@@ -16232,6 +16561,37 @@ xdc_Bool xdc_runtime_System_SupportProxy_ready__E( void )
 
 
 /*
+ * ======== xdc.runtime.Timestamp_SupportProxy PROXY BODY ========
+ */
+
+/* DELEGATES TO ti.sysbios.family.arm.lm4.TimestampProvider */
+
+/* Module__startupDone__S */
+xdc_Bool xdc_runtime_Timestamp_SupportProxy_Module__startupDone__S( void ) 
+{
+    return ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDone__S();
+}
+
+/* get32__E */
+xdc_Bits32 xdc_runtime_Timestamp_SupportProxy_get32__E( void )
+{
+    return ti_sysbios_family_arm_lm4_TimestampProvider_get32();
+}
+
+/* get64__E */
+xdc_Void xdc_runtime_Timestamp_SupportProxy_get64__E( xdc_runtime_Types_Timestamp64 *result )
+{
+    ti_sysbios_family_arm_lm4_TimestampProvider_get64(result);
+}
+
+/* getFreq__E */
+xdc_Void xdc_runtime_Timestamp_SupportProxy_getFreq__E( xdc_runtime_Types_FreqHz *freq )
+{
+    ti_sysbios_family_arm_lm4_TimestampProvider_getFreq(freq);
+}
+
+
+/*
  * ======== ti.sysbios.family.arm.lm4.Timer OBJECT DESCRIPTOR ========
  */
 
@@ -16684,7 +17044,7 @@ xdc_Bool ti_sysbios_family_arm_lm4_Timer_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_family_arm_lm4_Timer_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32824;
+    lab->modId = 32826;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -16832,6 +17192,18 @@ void ti_sysbios_family_arm_lm4_Timer_delete(ti_sysbios_family_arm_lm4_Timer_Hand
 
 
 /*
+ * ======== ti.sysbios.family.arm.lm4.TimestampProvider SYSTEM FUNCTIONS ========
+ */
+
+/* Module__startupDone__S */
+xdc_Bool ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDone__S( void )
+{
+    return ti_sysbios_family_arm_lm4_TimestampProvider_Module__startupDone__F();
+}
+
+
+
+/*
  * ======== ti.sysbios.family.arm.m3.Hwi SYSTEM FUNCTIONS ========
  */
 
@@ -16883,7 +17255,7 @@ xdc_Bool ti_sysbios_family_arm_m3_Hwi_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_family_arm_m3_Hwi_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32811;
+    lab->modId = 32812;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -17106,7 +17478,7 @@ xdc_Bool ti_sysbios_gates_GateHwi_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_gates_GateHwi_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32818;
+    lab->modId = 32819;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -17287,7 +17659,7 @@ xdc_Bool ti_sysbios_gates_GateMutex_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_gates_GateMutex_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32819;
+    lab->modId = 32820;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -17507,7 +17879,7 @@ xdc_Bool ti_sysbios_hal_Hwi_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_hal_Hwi_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32804;
+    lab->modId = 32805;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -17786,7 +18158,7 @@ xdc_Bool ti_sysbios_hal_Timer_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_hal_Timer_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32806;
+    lab->modId = 32807;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -18038,7 +18410,7 @@ xdc_Bool ti_sysbios_heaps_HeapMem_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_heaps_HeapMem_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32821;
+    lab->modId = 32822;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -18272,7 +18644,7 @@ xdc_Bool ti_sysbios_knl_Clock_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Clock_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32792;
+    lab->modId = 32793;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -18507,7 +18879,7 @@ xdc_Bool ti_sysbios_knl_Event_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Event_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32795;
+    lab->modId = 32796;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -18727,7 +19099,7 @@ xdc_Bool ti_sysbios_knl_Mailbox_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Mailbox_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32796;
+    lab->modId = 32797;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -18926,7 +19298,7 @@ xdc_Bool ti_sysbios_knl_Queue_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Queue_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32797;
+    lab->modId = 32798;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -19107,7 +19479,7 @@ xdc_Bool ti_sysbios_knl_Semaphore_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Semaphore_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32798;
+    lab->modId = 32799;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -19289,7 +19661,7 @@ xdc_Bool ti_sysbios_knl_Swi_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Swi_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32799;
+    lab->modId = 32800;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -19488,7 +19860,7 @@ xdc_Bool ti_sysbios_knl_Task_Module__startupDone__S( void )
 xdc_runtime_Types_Label *ti_sysbios_knl_Task_Handle__label__S(xdc_Ptr obj, xdc_runtime_Types_Label *lab) 
 {
     lab->handle = obj;
-    lab->modId = 32800;
+    lab->modId = 32801;
     xdc_runtime_Core_assignLabel(lab, 0, 0);
 
     return lab;
@@ -19990,6 +20362,33 @@ xdc_Bool xdc_runtime_Text_Module__startupDone__S( void )
     return 1;
 }
 
+
+
+/*
+ * ======== xdc.runtime.Timestamp SYSTEM FUNCTIONS ========
+ */
+
+/* Module__startupDone__S */
+xdc_Bool xdc_runtime_Timestamp_Module__startupDone__S( void )
+{
+    return 1;
+}
+
+
+
+/*
+ * ======== xdc.runtime.Timestamp_SupportProxy SYSTEM FUNCTIONS ========
+ */
+
+
+xdc_Bool xdc_runtime_Timestamp_SupportProxy_Proxy__abstract__S( void )
+{
+    return 0;
+}
+xdc_Ptr xdc_runtime_Timestamp_SupportProxy_Proxy__delegate__S( void )
+{
+    return 0;
+}
 
 
 /*
