@@ -215,9 +215,9 @@ bool I2C_readRegister(int device_ID, int addr, int no_of_bytes, char *buf)
 
 Void getBPMValue(UArg arg0, UArg arg1)
 {
-        char buf[10];
+        char buffer[2];
         char BPMVal[8];
-        int value;
+        int currentSensorData,DCFilterVal, BWFilterData;
         int cnt = 0;
         int pulseW = 0;
         int count = 0;
@@ -231,8 +231,8 @@ Void getBPMValue(UArg arg0, UArg arg1)
 
 
         /* check if connection with sensor is established */
-        I2C_readRegister(0x57, 0xFF, 1, buf);
-        System_printf("WHO_AM_I register = 0x%x\n", buf[0]);
+        I2C_readRegister(DEVICE_ID, 0xFF, 1, buffer);
+        System_printf("WHO_AM_I register = 0x%x\n", buffer[0]);
         System_flush();
 
         /* select sensor mode */
@@ -241,33 +241,25 @@ Void getBPMValue(UArg arg0, UArg arg1)
         /* set LED pulse width */
         I2C_writeRegister(DEVICE_ID,0x07,0x07);
 
-        /* set IR and red LED currents
-        /* trials have been made to find the optimum
-         * combination to get HR
-         */
+        /* set IR and red LED currents*/
         I2C_writeRegister(DEVICE_ID,0x09,0x49);
 
         while(1) {
 
-            I2C_readRegister(DEVICE_ID, 0x05, 4, buf);
-            next1 = (buf[0] << 8) | buf[1];
+            I2C_readRegister(DEVICE_ID, 0x05, 4, buffer);
+            currentSensorData = (buffer[0] << 8) | buffer[1];
 
-            //dc filter//////////////////////////////////////
-            DC = next1 + (0.75 * DCOld);
-            value = DC - DCOld;
-            DCOld = DC;
+            DCFilterVal = removeDCValue(currentSensorData); // get DC filtered value
 
-            //butterworth filter//////////////////////////////
-            BWNew = (2.452372752527856026e-1 * value) + (0.50952544949442879485 *BWOld);
-            BWOld = BWNew;
-            value = BWNew;
+            BWFilterData = butterworthFilter(DCFilterVal); //butterworth filter
 
             Task_sleep(20);
-            if(value > oldVal & pulStat == 0){
+
+            if(BWFilterData > oldVal & pulStat == 0){
                 pulStat = 1;
 
             }
-            if(value <= oldVal-20 & pulStat == 1){
+            if(BWFilterData <= oldVal-20 & pulStat == 1){
 
                 pulseW =count;
                 pulStat = 0;
@@ -280,19 +272,44 @@ Void getBPMValue(UArg arg0, UArg arg1)
                 System_printf("BPM = %d\n", BPM);
                 System_flush();
                 cnt=0;
-                sprintf(BPMVal, "%d", BPM);
-                Mailbox_post(mailbox0, &BPM, BIOS_NO_WAIT);
+                Mailbox_post(mailbox0, &BPM, BIOS_WAIT_FOREVER);
 
             }
             cnt++;
             count++;
-            oldVal = value;
+            oldVal = BWFilterData;
             BPM = 1200 / pulseW;
 
         }
 
         I2C_CloseCommunication();
     }
+
+
+int removeDCValue(int currentSensorData)
+{
+    int filteredValue,filteringValue;
+    static int prevSensorData=0;
+
+    filteringValue = currentSensorData + (0.85*prevSensorData);
+    filteredValue = filteringValue - prevSensorData;
+    prevSensorData = currentSensorData;
+
+    return filteredValue;
+
+}
+
+int butterworthFilter(int DCFilterVal)
+{
+    static int prevResult=0;
+    static int currResult;
+    int result;
+
+    currResult = (2.452372752527856026e-1 * DCFilterVal) + (0.50952544949442879485 * prevResult);
+    result = currResult + prevResult;
+    prevResult = currResult;
+    return result;
+}
 
 void printError(char *errString, int code)
 {
